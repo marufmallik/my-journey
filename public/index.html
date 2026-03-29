@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>My Journey This Year</title>
+<link rel="manifest" href="/manifest.json"/>
+<meta name="theme-color" content="#0d7377"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Journey"/>
+<link rel="apple-touch-icon" href="/icon-192.svg"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --royal:#1a3a6b;--royal-light:#1e4880;--teal:#0d7377;--teal-light:#12a07a;
+  --cyan:#2bbfbf;--cyan-soft:#5dd6d6;--gold:#e8b84b;
+  --bg:#0c1c36;--bg2:#101e3c;--bg3:#152448;--surface:#192d5a;
+  --border:rgba(43,191,191,.22);--text:#cce4f5;--text-muted:#7aadc8;
+  --green:#27ae73;--green2:#1e9460;--yellow:#e8b84b;--red:#e05c4b;
+  --radius:14px;--glow:0 0 20px rgba(43,191,191,.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;
+  background-image:radial-gradient(ellipse at 20% 20%,rgba(13,115,119,.12) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 80%,rgba(26,58,107,.25) 0%,transparent 60%);}
+
+/* NAV */
+#nav-bar{position:sticky;top:0;z-index:100;display:flex;justify-content:center;gap:12px;padding:10px 20px;
+  background:rgba(14,30,56,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+#nav-bar.minimized .nav-btn span.label{display:none;}
+#nav-bar.minimized .nav-btn{padding:8px 14px;}
+.nav-btn{background:linear-gradient(135deg,var(--royal-light),var(--teal));border:1px solid var(--cyan);color:var(--text);
+  padding:10px 22px;border-radius:50px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;
+  display:flex;align-items:center;gap:8px;transition:all .3s;box-shadow:0 2px 12px rgba(0,201,200,.15);}
+.nav-btn:hover{background:linear-gradient(135deg,var(--teal),#3abfbf);color:#0c1c36;
+  box-shadow:0 4px 20px rgba(0,201,200,.4);transform:translateY(-1px);}
+
+/* HOME */
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:60px 20px;}
+.home-ornament{width:80px;height:3px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);margin:18px auto;}
+#home h1{font-family:'Cinzel',serif;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:700;
+  background:linear-gradient(135deg,var(--cyan),#fff,var(--teal-light));-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;line-height:1.2;letter-spacing:.05em;}
+#home p.subtitle{color:var(--text-muted);font-size:1.1rem;margin:14px 0 50px;max-width:500px;font-weight:300;}
+.home-buttons{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+.home-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:22px 36px;
+  border-radius:var(--radius);cursor:pointer;font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:600;
+  display:flex;flex-direction:column;align-items:center;gap:10px;transition:all .3s;min-width:160px;
+  position:relative;overflow:hidden;}
+.home-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--teal),#3abfbf);opacity:0;transition:opacity .3s;}
+.home-btn:hover::before{opacity:1;}
+.home-btn:hover{color:var(--bg);transform:translateY(-4px);box-shadow:var(--glow);}
+.home-btn .icon{font-size:2rem;position:relative;}.home-btn .btn-label{position:relative;}
+
+/* SECTIONS */
+.section{display:none;padding:30px 20px 80px;max-width:1300px;margin:0 auto;animation:fadeIn .4s ease;}
+.section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.section-title{font-family:'Cinzel',serif;font-size:1.8rem;color:#5dd6d6;margin-bottom:24px;
+  display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.section-title::before{content:'';display:inline-block;width:6px;height:30px;
+  background:linear-gradient(180deg,var(--cyan),var(--teal));border-radius:3px;}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;margin-bottom:20px;box-shadow:0 4px 24px rgba(0,0,0,.25);}
+.card-title{font-family:'Cinzel',serif;font-size:1.1rem;color:#d4a843;margin-bottom:16px;letter-spacing:.08em;}
+.card.overflow{overflow-x:auto;}
+
+/* MODALS */
+.modal-backdrop{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,20,40,.88);
+  backdrop-filter:blur(8px);align-items:center;justify-content:center;}
+.modal-backdrop.open{display:flex;}
+.modal-box{background:var(--bg3);border-radius:20px;padding:32px 28px;max-width:460px;width:90%;
+  text-align:center;animation:fadeIn .3s ease;}
+.modal-box.cyan-border{border:1px solid var(--cyan);box-shadow:0 8px 40px rgba(0,201,200,.2);}
+.modal-box.red-border{border:1px solid var(--red);box-shadow:0 8px 40px rgba(231,76,60,.2);}
+.modal-box.gold-border{border:1px solid var(--gold);box-shadow:0 8px 40px rgba(240,192,64,.2);}
+.modal-box h2{font-family:'Cinzel',serif;font-size:1.3rem;margin-bottom:10px;}
+.modal-box h2.cyan{color:var(--cyan);}
+.modal-box h2.red{color:var(--red);}
+.modal-box h2.gold{color:var(--gold);}
+.modal-box p{color:var(--text-muted);font-size:.9rem;margin-bottom:20px;line-height:1.6;}
+.modal-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:linear-gradient(135deg,var(--teal),var(--cyan));border:none;color:var(--bg);
+  padding:10px 24px;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9rem;transition:all .2s;}
+.btn-primary:hover{transform:scale(1.04);}
+.btn-danger{background:var(--red);border:none;color:white;padding:10px 24px;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9rem;}
+.btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text-muted);
+  padding:10px 24px;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9rem;transition:all .2s;}
+.btn-secondary:hover{border-color:var(--cyan);color:var(--cyan);}
+
+/* CALENDAR MODAL */
+.cal-choice-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+.cal-choice-btn{padding:16px 28px;border-radius:12px;border:1px solid var(--border);cursor:pointer;
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;gap:6px;}
+.cal-choice-btn.english{background:rgba(0,201,200,.1);color:var(--cyan);border-color:var(--cyan);}
+.cal-choice-btn.arabic{background:rgba(240,192,64,.1);color:var(--gold);border-color:var(--gold);}
+.cal-choice-btn:hover{transform:translateY(-2px);box-shadow:var(--glow);}
+.cal-date-preview{padding:10px 16px;background:rgba(0,0,0,.25);border-radius:10px;
+  font-size:.85rem;color:var(--text-muted);margin-bottom:20px;line-height:1.7;}
+.cal-date-preview strong{color:var(--text);}
+
+/* TODAY BANNER */
+#today-banner{background:linear-gradient(135deg,rgba(13,115,119,.2),rgba(26,58,107,.2));border:1px solid var(--border);
+  border-radius:12px;padding:12px 20px;margin-bottom:20px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.today-date-block{display:flex;flex-direction:column;gap:3px;}
+.today-label{font-size:.72rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;}
+.today-value{font-family:'Cinzel',serif;font-size:1rem;color:var(--text);}
+.today-value.hijri{color:#d4a843;}
+.cal-badge{padding:6px 14px;border-radius:50px;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.cal-badge.english{background:rgba(43,191,191,.12);color:#5dd6d6;border:1px solid rgba(43,191,191,.5);}
+.cal-badge.arabic{background:rgba(232,184,75,.12);color:#d4a843;border:1px solid rgba(232,184,75,.5);}
+
+/* MONTH SELECTOR */
+.month-selector{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.month-selector label{color:var(--text-muted);font-size:.9rem;}
+.ctrl-select,.ctrl-input{background:var(--bg2);border:1px solid var(--border);color:var(--text);
+  padding:6px 12px;border-radius:8px;font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;cursor:pointer;}
+.ctrl-select:focus,.ctrl-input:focus{border-color:var(--cyan);}
+
+/* SALAH TABLE */
+.tracker-table{border-collapse:collapse;min-width:100%;font-size:.8rem;}
+.tracker-table th{background:var(--bg2);color:var(--cyan);padding:8px 4px;text-align:center;
+  font-weight:600;border:1px solid var(--border);white-space:nowrap;font-size:.75rem;}
+.tracker-table td{border:1px solid var(--border);text-align:center;padding:4px;}
+.tracker-table td.row-label{background:var(--bg3);color:var(--teal-light);font-weight:700;font-size:.82rem;
+  padding:6px 12px;white-space:nowrap;min-width:90px;}
+.today-col{background:rgba(43,191,191,.06)!important;}
+.today-col-header{background:rgba(43,191,191,.15)!important;color:#5dd6d6!important;font-weight:800!important;}
+.today-col-header::after{content:'◀';font-size:.55rem;display:block;color:var(--cyan);}
+.salah-cell{width:32px;height:32px;cursor:pointer;border-radius:4px;font-size:1rem;
+  background:rgba(255,255,255,.03);transition:background .15s,transform .1s;
+  user-select:none;display:flex;align-items:center;justify-content:center;margin:auto;}
+.salah-cell:hover{background:rgba(0,201,200,.1);transform:scale(1.12);}
+.quran-cell-input{width:38px;background:transparent;border:none;border-bottom:1px solid var(--border);
+  color:var(--cyan-soft);text-align:center;font-family:'Nunito',sans-serif;font-size:.8rem;outline:none;padding:2px;}
+.quran-cell-input:focus{border-bottom-color:var(--cyan);}
+.legend{display:flex;gap:14px;font-size:.8rem;color:var(--text-muted);margin-bottom:12px;flex-wrap:wrap;}
+
+/* CHARTS */
+.chart-wrap{background:var(--bg3);border-radius:10px;padding:14px 10px 10px;border:1px solid var(--border);margin-top:12px;}
+.chart-wrap-title{font-size:.82rem;color:var(--text-muted);margin-bottom:8px;font-weight:600;letter-spacing:.05em;}
+canvas.salah-chart{width:100%!important;height:160px!important;}
+canvas.expense-chart{width:100%!important;height:220px!important;}
+.habit-chart-block{background:rgba(14,26,54,.7);border-radius:10px;padding:14px 12px 10px;border:1px solid rgba(43,191,191,.14);margin-bottom:14px;}
+
+/* ═══ HABIT SECTION ═══ */
+.habit-date-nav{display:flex;align-items:center;justify-content:center;gap:16px;
+  background:rgba(16,30,60,.5);border:1px solid rgba(43,191,191,.18);border-radius:12px;padding:14px 20px;margin-bottom:20px;}
+.date-nav-btn{background:rgba(43,191,191,.08);border:1px solid rgba(43,191,191,.25);color:#5dd6d6;
+  width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;
+  align-items:center;justify-content:center;transition:all .2s;}
+.date-nav-btn:hover:not(:disabled){background:var(--teal);color:white;border-color:var(--teal);}
+.date-nav-btn:disabled{opacity:.3;cursor:not-allowed;}
+.date-nav-label{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--text);min-width:200px;text-align:center;}
+.date-nav-sub{font-size:.75rem;color:var(--text-muted);display:block;margin-top:2px;}
+
+.habit-type-title{font-size:1rem;font-weight:700;padding:8px 16px;border-radius:8px;margin-bottom:14px;display:inline-block;}
+.habit-type-title.build{background:rgba(39,174,115,.13);color:#4ec98a;border:1px solid rgba(39,174,115,.28);}
+.habit-type-title.change{background:rgba(224,92,75,.13);color:#e87a6a;border:1px solid rgba(224,92,75,.28);}
+.habit-input-row{display:flex;gap:10px;margin-bottom:14px;align-items:center;}
+.habit-input-row input[type="text"]{flex:1;background:rgba(16,30,60,.6);border:1px solid rgba(43,191,191,.18);color:var(--text);
+  padding:9px 14px;border-radius:8px;font-family:'Nunito',sans-serif;font-size:.95rem;outline:none;max-width:280px;}
+.habit-input-row input:focus{border-color:var(--cyan);}
+.btn-add{background:linear-gradient(135deg,#0d6b6f,#2bbfbf);border:none;color:#0c1c36;
+  padding:9px 20px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9rem;transition:all .25s;}
+.btn-add:hover{transform:scale(1.04);box-shadow:var(--glow);}
+
+.habit-record-list{display:flex;flex-direction:column;gap:8px;}
+.habit-record-row{display:flex;align-items:center;justify-content:space-between;
+  background:rgba(16,30,60,.6);border:1px solid rgba(43,191,191,.14);border-radius:10px;padding:12px 16px;gap:12px;transition:border-color .2s;}
+.habit-record-row:hover{border-color:rgba(43,191,191,.28);}
+.habit-record-name{font-weight:600;font-size:.95rem;flex:1;}
+.habit-record-name.build-label{color:#5dd6d6;}
+.habit-record-name.change-label{color:#e07a6a;}
+.habit-toggle-btn{
+  height:28px;padding:0 12px;border-radius:20px;
+  border:1px solid rgba(43,191,191,.18);
+  background:rgba(255,255,255,.03);
+  cursor:pointer;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.05em;color:rgba(255,255,255,.22);
+  display:flex;align-items:center;gap:4px;
+  transition:all .2s;user-select:none;white-space:nowrap;}
+.habit-toggle-btn:hover{border-color:rgba(43,191,191,.38);color:rgba(255,255,255,.45);}
+.habit-toggle-btn.yes-active{
+  background:rgba(93,214,214,.12);
+  border-color:rgba(93,214,214,.5);
+  color:#5dd6d6;
+  box-shadow:0 0 8px rgba(93,214,214,.14);}
+.habit-toggle-btn.no-active{
+  background:rgba(180,70,60,.1);
+  border-color:rgba(180,70,60,.38);
+  color:#c87a6a;
+  box-shadow:0 0 6px rgba(180,70,60,.1);}
+.btn-remove-sm{background:transparent;border:1px solid rgba(180,70,60,.25);color:#b06055;
+  padding:3px 9px;border-radius:6px;cursor:pointer;font-size:.75rem;transition:all .2s;white-space:nowrap;}
+.btn-remove-sm:hover{border-color:rgba(180,70,60,.5);color:#e07a6a;background:rgba(180,70,60,.08);}
+.btn-remove-sm:hover{background:rgba(231,76,60,.1);}
+
+/* ═══ EXPENSE SECTION ═══ */
+.expense-top-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px;}
+.exp-summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;
+  display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:border-color .2s;}
+.exp-summary-card:hover{border-color:var(--cyan);}
+.exp-summary-label{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;}
+.exp-summary-amount{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700;}
+.exp-summary-amount.income-color{color:#4ec98a;}
+.exp-summary-amount.savings-color{color:var(--cyan-soft);}
+.exp-summary-amount.expense-color{color:#e8b84b;}
+.exp-summary-amount.remaining-color{color:#5dd6d6;}
+.exp-summary-sub{font-size:.78rem;color:var(--text-muted);}
+.exp-summary-card.clickable-hint::after{content:'▼ tap for breakdown';font-size:.7rem;color:var(--text-muted);margin-top:4px;}
+
+.expense-settings-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
+.expense-settings-row label{color:var(--text-muted);font-size:.9rem;}
+.ctrl-num{background:var(--bg2);border:1px solid var(--border);color:var(--text);
+  padding:7px 12px;border-radius:8px;font-family:'Nunito',sans-serif;font-size:.95rem;outline:none;width:110px;}
+.ctrl-num:focus{border-color:var(--cyan);}
+.ctrl-num.gold{color:#d4a843;}
+
+.expense-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:16px;}
+.expense-day-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;transition:border-color .3s;}
+.expense-day-card.over{border-color:#c0503f;background:rgba(192,80,63,.07);}
+.expense-day-card.under{border-color:#27ae73;background:rgba(39,174,115,.07);}
+.expense-day-card .day-num{font-family:'Cinzel',serif;font-size:.8rem;color:var(--text-muted);}
+.expense-day-card input[type="number"]{width:72px;background:transparent;border:none;
+  border-bottom:1px solid var(--border);color:var(--text);text-align:center;
+  font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;padding:2px;}
+.expense-day-card input:focus{border-bottom-color:var(--cyan);}
+.expense-day-card .status-icon{font-size:.95rem;min-height:1rem;}
+.exp-day-open-btn{background:transparent;border:1px solid var(--border);border-radius:8px;
+  color:var(--text);cursor:pointer;width:100%;padding:6px 4px;display:flex;flex-direction:column;
+  align-items:center;gap:2px;transition:all .2s;font-family:'Nunito',sans-serif;}
+.exp-day-open-btn:hover:not(:disabled){border-color:var(--gold);background:rgba(240,192,64,.08);}
+.exp-day-total-txt{font-family:'Cinzel',serif;font-size:.95rem;color:#d4a843;font-weight:700;}
+.exp-day-count-txt{font-size:.7rem;color:var(--text-muted);}
+
+/* Breakdown panel */
+.breakdown-panel{background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:16px;margin-bottom:16px;display:none;}
+.breakdown-panel.open{display:block;}
+.breakdown-entry-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.breakdown-entry-row input[type="text"]{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text);
+  padding:7px 10px;border-radius:7px;font-family:'Nunito',sans-serif;font-size:.88rem;outline:none;min-width:120px;}
+.breakdown-entry-row input[type="text"]:focus{border-color:var(--cyan);}
+.breakdown-entry-row input[type="number"]{width:110px;background:var(--bg3);border:1px solid var(--border);
+  color:var(--green);padding:7px 10px;border-radius:7px;font-family:'Nunito',sans-serif;font-size:.88rem;outline:none;}
+.breakdown-entry-row input[type="number"]:focus{border-color:var(--green);}
+.breakdown-list{margin-bottom:12px;}
+.breakdown-item{display:flex;justify-content:space-between;align-items:center;
+  padding:7px 12px;background:var(--bg3);border-radius:8px;margin-bottom:6px;font-size:.88rem;}
+.breakdown-item .b-source{color:var(--text-muted);flex:1;}
+.breakdown-item .b-amount{font-weight:700;color:var(--green);margin:0 12px;}
+.breakdown-item .b-del{background:transparent;border:none;color:var(--red);cursor:pointer;font-size:1rem;}
+.breakdown-total-row{display:flex;justify-content:space-between;padding:8px 12px;
+  background:rgba(0,201,200,.07);border-radius:8px;font-weight:700;font-size:.9rem;border:1px solid var(--border);}
+
+/* Month rollover */
+.rollover-panel{background:linear-gradient(135deg,rgba(13,115,119,.2),rgba(26,58,107,.2));
+  border:1px solid var(--cyan);border-radius:12px;padding:16px;margin-bottom:16px;
+  display:none;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.rollover-panel.show{display:flex;}
+.rollover-text{font-size:.9rem;color:var(--text);}
+.rollover-text strong{color:var(--cyan-soft);}
+.rollover-btns{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* INSTALL BANNER */
+#install-banner{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:999;
+  background:linear-gradient(135deg,#1a3a6b,#0d7377);border:1px solid rgba(0,201,200,.4);
+  border-radius:50px;padding:10px 20px;align-items:center;gap:14px;
+  box-shadow:0 4px 24px rgba(0,0,0,.4);font-family:'Nunito',sans-serif;white-space:nowrap;}
+
+
+/* Expense category chips */
+.exp-chip{background:var(--bg3);border:1px solid var(--border);color:var(--text-muted);
+  padding:5px 12px;border-radius:50px;font-size:.82rem;cursor:pointer;transition:all .2s;user-select:none;}
+.exp-chip:hover{background:var(--teal);color:white;border-color:var(--teal);}
+.exp-chip.active{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:700;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--teal);border-radius:3px;}
+
+@media(max-width:640px){
+  .home-btn{min-width:120px;padding:16px 20px;}#home h1{font-size:2rem;}
+  .tracker-table{font-size:.7rem;}.expense-top-grid{grid-template-columns:1fr 1fr;}
+  .habit-record-row{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ CALENDAR CHOICE MODAL (shown on first entry to Salah) ══ -->
+<div id="cal-modal" class="modal-backdrop">
+
+  <!-- Step 1: Choose type -->
+  <div class="modal-box cyan-border" id="cal-step-1">
+    <h2 class="cyan">🕌 Choose Your Calendar</h2>
+    <p>Which calendar for Salah &amp; Quran tracking? Data is stored separately — you can switch anytime.</p>
+    
+    <div class="cal-choice-btns">
+      <button class="cal-choice-btn english" onclick="chooseCalendar('english')">
+        <span style="font-size:1.8rem">📅</span><span>English Calendar</span>
+        <small id="preview-english" style="color:var(--text-muted);font-size:.78rem"></small>
+      </button>
+      <button class="cal-choice-btn arabic" onclick="showHijriConfirm()">
+        <span style="font-size:1.8rem">🌙</span><span>Islamic / Hijri</span>
+        <small id="preview-arabic" style="color:var(--text-muted);font-size:.78rem"></small>
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2: Confirm today's Hijri date -->
+  <div class="modal-box cyan-border" id="cal-step-2" style="display:none;max-width:500px">
+    <h2 class="cyan">🌙 Enter Today's Hijri Date</h2>
+
+    <!-- Current time display -->
+    <div style="background:rgba(0,201,200,0.08);border:1px solid rgba(0,201,200,0.2);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:.7rem;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase">English Date &amp; Time</div>
+        <div id="hijri-confirm-eng" style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--text)"></div>
+      </div>
+      <div id="hijri-live-clock" style="font-family:'Cinzel',serif;font-size:1.4rem;color:var(--cyan);font-weight:700;min-width:80px;text-align:right"></div>
+    </div>
+
+    <!-- Dynamic instruction box — changes based on time of day -->
+    <div id="hijri-instruction-box" style="border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:.85rem;line-height:1.7;border:1px solid">
+    </div>
+
+    <!-- Input fields -->
+    <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:14px;margin-bottom:16px">
+      <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:10px;text-align:center;letter-spacing:.06em;text-transform:uppercase">Enter the Hijri date for the Islamic day currently active</div>
+      <div style="display:flex;gap:12px;align-items:flex-end;justify-content:center;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+          <label style="font-size:.7rem;color:var(--text-muted);letter-spacing:.06em">DAY</label>
+          <input type="number" id="hijri-confirm-day" min="1" max="30"
+            style="width:66px;background:var(--bg2);border:2px solid var(--cyan);color:var(--gold);
+              padding:10px 6px;border-radius:10px;font-family:'Cinzel',serif;font-size:1.3rem;
+              text-align:center;outline:none;font-weight:700"/>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+          <label style="font-size:.7rem;color:var(--text-muted);letter-spacing:.06em">MONTH</label>
+          <select id="hijri-confirm-month"
+            style="background:var(--bg2);border:2px solid var(--cyan);color:var(--text);
+              padding:10px 8px;border-radius:10px;font-family:'Nunito',sans-serif;font-size:.9rem;outline:none">
+            <option value="1">Muharram</option><option value="2">Safar</option>
+            <option value="3">Rabi al-Awwal</option><option value="4">Rabi al-Thani</option>
+            <option value="5">Jumada al-Awwal</option><option value="6">Jumada al-Thani</option>
+            <option value="7">Rajab</option><option value="8">Sha'ban</option>
+            <option value="9">Ramadan</option><option value="10">Shawwal</option>
+            <option value="11">Dhul Qa'dah</option><option value="12">Dhul Hijjah</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+          <label style="font-size:.7rem;color:var(--text-muted);letter-spacing:.06em">YEAR (AH)</label>
+          <input type="number" id="hijri-confirm-year" min="1400" max="1600"
+            style="width:90px;background:var(--bg2);border:2px solid var(--cyan);color:var(--gold);
+              padding:10px 6px;border-radius:10px;font-family:'Cinzel',serif;font-size:1.3rem;
+              text-align:center;outline:none;font-weight:700"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-primary" onclick="confirmHijriDate()" style="font-size:1rem;padding:12px 30px">✓ Confirm &amp; Start</button>
+      <button class="btn-secondary" onclick="backToStep1()">← Back</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ SWITCH CALENDAR WARNING ══ -->
+<div id="switch-modal" class="modal-backdrop">
+  <div class="modal-box red-border">
+    <h2 class="red">⚠️ Switch Calendar?</h2>
+    <p>Your records for each calendar type are stored separately — nothing is deleted. You'll be viewing a different set of records after switching.</p>
+    <div class="modal-btns">
+      <button class="btn-danger" onclick="confirmSwitch()">Yes, Switch</button>
+      <button class="btn-secondary" onclick="cancelSwitch()">Keep Current</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INCOME BREAKDOWN MODAL ══ -->
+<div id="income-modal" class="modal-backdrop">
+  <div class="modal-box gold-border" style="max-width:520px">
+    <h2 class="gold">💰 Income Breakdown</h2>
+    <div class="breakdown-list" id="income-breakdown-list"></div>
+    <div class="breakdown-entry-row">
+      <input type="text" id="income-source-inp" placeholder="Source (e.g. Salary)"/>
+      <input type="number" id="income-amount-inp" placeholder="Amount" min="0" step="0.01"/>
+      <button class="btn-add" onclick="addIncomeEntry()" style="padding:7px 14px">+ Add</button>
+    </div>
+    <div class="breakdown-total-row">
+      <span>Total Income</span>
+      <span id="income-modal-total" style="color:var(--green)">0</span>
+    </div>
+    <div class="modal-btns" style="margin-top:16px">
+      <button class="btn-primary" onclick="closeIncomeModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ END-OF-MONTH ROLLOVER MODAL ══ -->
+<div id="rollover-modal" class="modal-backdrop">
+  <div class="modal-box cyan-border">
+    <h2 class="cyan">📅 Month End — What to do with remaining?</h2>
+    <p id="rollover-modal-text"></p>
+    <div class="modal-btns">
+      <button class="btn-primary" onclick="doRollover('savings')">➕ Add to Savings</button>
+      <button class="btn-primary" onclick="doRollover('income')">➕ Add to Next Month's Income</button>
+      <button class="btn-secondary" onclick="closeRolloverModal()">Skip</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ EXPENSE DAY BREAKDOWN MODAL ══ -->
+<div id="exp-day-modal" class="modal-backdrop">
+  <div class="modal-box gold-border" style="max-width:540px;max-height:90vh;overflow-y:auto">
+    <h2 class="gold">🧾 <span id="exp-day-modal-title">Day Expenses</span></h2>
+    <p style="margin-bottom:16px">Add each expense with a category and amount.</p>
+
+    <!-- Quick category chips -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="exp-category-chips">
+      <span class="exp-chip" onclick="setExpCategory('Food')">🍛 Food</span>
+      <span class="exp-chip" onclick="setExpCategory('Fare / Transport')">🚌 Fare</span>
+      <span class="exp-chip" onclick="setExpCategory('Groceries')">🛒 Groceries</span>
+      <span class="exp-chip" onclick="setExpCategory('Utilities')">💡 Utilities</span>
+      <span class="exp-chip" onclick="setExpCategory('Medical')">💊 Medical</span>
+      <span class="exp-chip" onclick="setExpCategory('Shopping')">🛍 Shopping</span>
+      <span class="exp-chip" onclick="setExpCategory('Rent')">🏠 Rent</span>
+      <span class="exp-chip" onclick="setExpCategory('Other')">📌 Other</span>
+    </div>
+
+    <!-- Entry row -->
+    <div class="breakdown-entry-row" style="margin-bottom:14px">
+      <input type="text" id="exp-day-cat-inp" placeholder="Category (or tap above)" style="flex:1"/>
+      <input type="number" id="exp-day-amt-inp" placeholder="Amount" min="0" step="0.01"
+        style="width:110px;color:var(--gold)" onkeydown="if(event.key==='Enter')addExpDayEntry()"/>
+      <button class="btn-add" onclick="addExpDayEntry()" style="padding:8px 14px;white-space:nowrap">+ Add</button>
+    </div>
+
+    <!-- Existing entries -->
+    <div class="breakdown-list" id="exp-day-list"></div>
+
+    <!-- Total -->
+    <div class="breakdown-total-row" style="margin-bottom:16px">
+      <span>Total for this day</span>
+      <span id="exp-day-total" style="color:var(--gold);font-weight:700">0</span>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-primary" onclick="closeExpDayModal()">✓ Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INSTALL BANNER ══ -->
+<div id="install-banner">
+  <span style="color:#d4eaf7;font-size:.9rem">📲 Add to your home screen</span>
+  <button onclick="triggerInstall()" style="background:linear-gradient(135deg,#0d7377,#00c9c8);border:none;color:#0e1e38;padding:7px 18px;border-radius:50px;font-weight:700;cursor:pointer">Install App</button>
+  <button onclick="document.getElementById('install-banner').style.display='none'" style="background:transparent;border:none;color:#7db2d4;cursor:pointer;font-size:1.1rem">✕</button>
+</div>
+
+<!-- ══ NAV ══ -->
+<div id="nav-bar" style="display:none">
+  <button class="nav-btn" onclick="goTo('home')">🏠 <span class="label">Home</span></button>
+  <button class="nav-btn" onclick="goTo('salah')">🕌 <span class="label">Salah & Quran</span></button>
+  <button class="nav-btn" onclick="goTo('habit')">🌱 <span class="label">Habits</span></button>
+  <button class="nav-btn" onclick="goTo('expense')">💰 <span class="label">Expenses</span></button>
+</div>
+
+<!-- ══ HOME ══ -->
+<div id="home" style="display:flex">
+  <div class="home-ornament"></div>
+  <h1>My Journey<br/>This Year</h1>
+  <div class="home-ornament"></div>
+  <p class="subtitle">Track your prayers, habits & finances — all in one place</p>
+  <div class="home-buttons">
+    <button class="home-btn" onclick="goTo('salah')"><span class="icon">🕌</span><span class="btn-label">Salah & Quran</span></button>
+    <button class="home-btn" onclick="goTo('habit')"><span class="icon">🌱</span><span class="btn-label">Habit Tracker</span></button>
+    <button class="home-btn" onclick="goTo('expense')"><span class="icon">💰</span><span class="btn-label">Expense Tracker</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SALAH SECTION
+══════════════════════════════════════ -->
+<div class="section" id="salah">
+  <div class="section-title">🕌 Salah & Quran Tracker</div>
+
+  <!-- ── First-time calendar setup (shown inline, not as modal) ── -->
+  <div id="salah-setup-card" style="display:none">
+
+    <!-- Step A: Choose calendar type -->
+    <div id="setup-step-a" class="card" style="max-width:480px;margin:40px auto;text-align:center">
+      <h2 style="font-family:'Cinzel',serif;color:var(--cyan);font-size:1.3rem;margin-bottom:10px">🕌 Choose Calendar Type</h2>
+      <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:20px;line-height:1.6">Select which calendar system to use for tracking your Salah and Quran recitation.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <button onclick="setupChooseCalendar('english')"
+          style="background:rgba(0,201,200,.1);border:2px solid var(--cyan);color:var(--cyan);
+            padding:16px 24px;border-radius:12px;cursor:pointer;font-family:'Nunito',sans-serif;
+            font-weight:700;font-size:1rem;display:flex;flex-direction:column;align-items:center;gap:6px;
+            transition:all .2s;min-width:140px">
+          <span style="font-size:1.8rem">📅</span>English Calendar
+        </button>
+        <button onclick="setupChooseCalendar('arabic')"
+          style="background:rgba(240,192,64,.1);border:2px solid var(--gold);color:var(--gold);
+            padding:16px 24px;border-radius:12px;cursor:pointer;font-family:'Nunito',sans-serif;
+            font-weight:700;font-size:1rem;display:flex;flex-direction:column;align-items:center;gap:6px;
+            transition:all .2s;min-width:140px">
+          <span style="font-size:1.8rem">🌙</span>Islamic / Hijri
+        </button>
+      </div>
+    </div>
+
+    <!-- Step B: Hijri date confirmation (only shown when Hijri chosen) -->
+    <div id="setup-step-b" class="card" style="display:none;max-width:480px;margin:40px auto">
+      <h2 style="font-family:'Cinzel',serif;color:var(--cyan);font-size:1.2rem;margin-bottom:6px;text-align:center">🌙 Enter Today's Hijri Date</h2>
+      <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:14px;text-align:center">This sets the anchor for all future Hijri calculations.</p>
+
+      <!-- Live clock + instruction -->
+      <div style="background:rgba(0,201,200,.07);border:1px solid rgba(0,201,200,.2);border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em">English Date</div>
+          <div id="setup-eng-date" style="font-family:'Cinzel',serif;font-size:.88rem;color:var(--text)"></div>
+        </div>
+        <div id="setup-live-clock" style="font-family:'Cinzel',serif;font-size:1.3rem;color:var(--cyan);font-weight:700"></div>
+      </div>
+
+      <div id="setup-instruction" style="border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:.83rem;line-height:1.7;border:1px solid"></div>
+
+      <div style="background:rgba(0,0,0,.18);border-radius:10px;padding:14px;margin-bottom:16px">
+        <div style="font-size:.72rem;color:var(--text-muted);text-align:center;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Hijri date currently active</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:flex-end">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <label style="font-size:.68rem;color:var(--text-muted)">DAY</label>
+            <input type="number" id="setup-hijri-day" min="1" max="30"
+              style="width:62px;background:var(--bg2);border:2px solid var(--cyan);color:var(--gold);
+                padding:9px 4px;border-radius:9px;font-family:'Cinzel',serif;font-size:1.2rem;
+                text-align:center;outline:none;font-weight:700"/>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <label style="font-size:.68rem;color:var(--text-muted)">MONTH</label>
+            <select id="setup-hijri-month"
+              style="background:var(--bg2);border:2px solid var(--cyan);color:var(--text);
+                padding:9px 7px;border-radius:9px;font-family:'Nunito',sans-serif;font-size:.88rem;outline:none">
+              <option value="1">Muharram</option><option value="2">Safar</option>
+              <option value="3">Rabi al-Awwal</option><option value="4">Rabi al-Thani</option>
+              <option value="5">Jumada al-Awwal</option><option value="6">Jumada al-Thani</option>
+              <option value="7">Rajab</option><option value="8">Sha'ban</option>
+              <option value="9">Ramadan</option><option value="10">Shawwal</option>
+              <option value="11">Dhul Qa'dah</option><option value="12">Dhul Hijjah</option>
+            </select>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <label style="font-size:.68rem;color:var(--text-muted)">YEAR (AH)</label>
+            <input type="number" id="setup-hijri-year" min="1400" max="1600"
+              style="width:86px;background:var(--bg2);border:2px solid var(--cyan);color:var(--gold);
+                padding:9px 4px;border-radius:9px;font-family:'Cinzel',serif;font-size:1.2rem;
+                text-align:center;outline:none;font-weight:700"/>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button onclick="setupConfirmHijri()"
+          style="background:linear-gradient(135deg,var(--teal),var(--cyan));border:none;color:var(--bg);
+            padding:11px 28px;border-radius:10px;cursor:pointer;font-weight:700;font-size:.95rem">
+          ✓ Confirm &amp; Start
+        </button>
+        <button onclick="setupBackToA()"
+          style="background:transparent;border:1px solid var(--border);color:var(--text-muted);
+            padding:11px 18px;border-radius:10px;cursor:pointer;font-size:.88rem">
+          ← Back
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Normal salah content (hidden until calendar chosen) ── -->
+  <div id="salah-main-content" style="display:none">
+  <div id="today-banner">
+    <div class="today-date-block">
+      <span class="today-label">Today — English</span>
+      <span class="today-value" id="banner-english">—</span>
+    </div>
+    <div class="today-date-block">
+      <span class="today-label">Today — Hijri</span>
+      <span class="today-value hijri" id="banner-hijri">—</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+      <button class="cal-badge english" id="cal-badge" onclick="requestSwitch()">Switch Calendar</button>
+      <button id="hijri-reenter-btn" onclick="reenterHijriDate()" 
+        style="display:none;background:rgba(240,192,64,.15);color:var(--gold);border:1px solid var(--gold);
+          padding:5px 12px;border-radius:50px;font-size:.72rem;font-weight:700;cursor:pointer;
+          letter-spacing:.04em;transition:all .2s">
+        🌙 Correct Hijri Date
+      </button>
+    </div>
+  </div>
+
+  <div class="card overflow">
+    <div id="english-month-row" class="month-selector" style="display:none">
+      <label>Month:</label>
+      <select id="eng-month-sel" class="ctrl-select" onchange="renderSalahTable()">
+        <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+        <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+        <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+        <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+      </select>
+      <label>Year:</label>
+      <input type="number" id="eng-year-inp" class="ctrl-input" style="width:90px" onchange="renderSalahTable()"/>
+    </div>
+    <div id="hijri-month-row" class="month-selector" style="display:none">
+      <label>Hijri Month:</label>
+      <select id="hijri-month-sel" class="ctrl-select" onchange="renderSalahTable()">
+        <option value="0">Muharram</option><option value="1">Safar</option>
+        <option value="2">Rabi al-Awwal</option><option value="3">Rabi al-Thani</option>
+        <option value="4">Jumada al-Awwal</option><option value="5">Jumada al-Thani</option>
+        <option value="6">Rajab</option><option value="7">Sha'ban</option>
+        <option value="8">Ramadan</option><option value="9">Shawwal</option>
+        <option value="10">Dhul Qa'dah</option><option value="11">Dhul Hijjah</option>
+      </select>
+      <label>Year (AH):</label>
+      <input type="number" id="hijri-year-inp" class="ctrl-input" style="width:90px" onchange="renderSalahTable()"/>
+      <label>Days:</label>
+      <input type="number" id="hijri-days-inp" class="ctrl-input" value="30" min="29" max="30" style="width:62px" onchange="renderSalahTable()"/>
+    </div>
+    <div class="legend">
+      <span>✅ Jamah on time</span>
+      <span>🟩 Alone on time</span>
+      <span>🟡 Late / Qadha</span>
+      <span>❌ Missed</span>
+      <span style="color:var(--text-muted)">(5th click = clear)</span>
+    </div>
+    <div id="salah-table-wrap"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Monthly Salah Overview</div>
+    <div class="chart-wrap">
+      <div class="chart-wrap-title">Prayers per day — stacked by status</div>
+      <canvas id="salah-chart" class="salah-chart"></canvas>
+    </div>
+    <div class="chart-wrap" style="margin-top:14px">
+      <div class="chart-wrap-title">📖 Quran recitation per day</div>
+      <canvas id="quran-chart" class="salah-chart"></canvas>
+    </div>
+  </div>
+  </div><!-- end salah-main-content -->
+</div>
+
+<!-- ══════════════════════════════════════
+     HABIT SECTION
+══════════════════════════════════════ -->
+<div class="section" id="habit">
+  <div class="section-title">🌱 Habit Tracker</div>
+
+  <!-- Date navigator -->
+  <div class="habit-date-nav">
+    <button class="date-nav-btn" id="habit-prev-btn" onclick="habitNavDay(-1)">‹</button>
+    <div style="text-align:center">
+      <div class="date-nav-label" id="habit-date-label">—</div>
+      <span class="date-nav-sub" id="habit-date-sub"></span>
+    </div>
+    <button class="date-nav-btn" id="habit-next-btn" onclick="habitNavDay(1)">›</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="habit-type-title build">✅ Habits to Build</span></div>
+    <div class="habit-input-row">
+      <input type="text" id="build-name-inp" placeholder="Enter habit name…" onkeydown="if(event.key==='Enter')addHabit('build')"/>
+      <button class="btn-add" onclick="addHabit('build')">+ Add</button>
+    </div>
+    <div class="habit-record-list" id="build-list"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="habit-type-title change">🔄 Habits to Change / Break</span></div>
+    <div class="habit-input-row">
+      <input type="text" id="change-name-inp" placeholder="Enter habit name…" onkeydown="if(event.key==='Enter')addHabit('change')"/>
+      <button class="btn-add" onclick="addHabit('change')">+ Add</button>
+    </div>
+    <div class="habit-record-list" id="change-list"></div>
+  </div>
+
+  <!-- Combined graph -->
+  <div class="card">
+    <div class="card-title">📈 Monthly Habit Progress</div>
+    <div class="month-selector">
+      <label>Month:</label>
+      <select id="habit-graph-month" class="ctrl-select" onchange="renderHabitChart()">
+        <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+        <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+        <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+        <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+      </select>
+      <label>Year:</label>
+      <input type="number" id="habit-graph-year" class="ctrl-input" style="width:90px" onchange="renderHabitChart()"/>
+    </div>
+    <div id="habit-charts-container"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     EXPENSE SECTION
+══════════════════════════════════════ -->
+<div class="section" id="expense">
+  <div class="section-title">💰 Finance Tracker</div>
+
+  <!-- Settings -->
+  <div class="card">
+    <div class="card-title">⚙️ Settings</div>
+    <div class="expense-settings-row">
+      <label>Daily budget limit:</label>
+      <input type="number" id="expense-limit" class="ctrl-num gold" value="1000" min="0" onchange="renderExpense()"/>
+      <label>Monthly savings deposit:</label>
+      <input type="number" id="savings-deposit" class="ctrl-num" value="0" min="0" step="0.01"
+        style="color:var(--cyan)" onchange="renderExpense()"/>
+    </div>
+    <div class="expense-settings-row">
+      <label>Month start date (1–28):</label>
+      <input type="number" id="month-start-day" class="ctrl-input" value="1" min="1" max="28"
+        style="width:70px" onchange="renderExpense()"/>
+      <label>Month:</label>
+      <select id="expense-month-sel" class="ctrl-select" onchange="renderExpense()">
+        <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+        <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+        <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+        <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+      </select>
+      <label>Year:</label>
+      <input type="number" id="expense-year-inp" class="ctrl-input" style="width:90px" onchange="renderExpense()"/>
+    </div>
+  </div>
+
+  <!-- Summary cards -->
+  <div class="expense-top-grid">
+    <div class="exp-summary-card clickable-hint" onclick="openIncomeModal()">
+      <span class="exp-summary-label">💰 Total Income</span>
+      <span class="exp-summary-amount income-color" id="sum-income">0</span>
+      <span class="exp-summary-sub" id="sum-income-sub">Click for breakdown</span>
+    </div>
+    <div class="exp-summary-card">
+      <span class="exp-summary-label">🏦 Savings Deposit</span>
+      <span class="exp-summary-amount savings-color" id="sum-savings">0</span>
+      <span class="exp-summary-sub">Deducted from income</span>
+    </div>
+    <div class="exp-summary-card">
+      <span class="exp-summary-label">🧾 Total Expenses (so far)</span>
+      <span class="exp-summary-amount expense-color" id="sum-expenses">0</span>
+      <span class="exp-summary-sub" id="sum-expenses-sub">This period</span>
+    </div>
+    <div class="exp-summary-card">
+      <span class="exp-summary-label">✅ Remaining Balance</span>
+      <span class="exp-summary-amount remaining-color" id="sum-remaining">0</span>
+      <span class="exp-summary-sub">Income − Savings − Expenses</span>
+    </div>
+  </div>
+
+  <!-- Rollover notice -->
+  <div class="rollover-panel" id="rollover-panel">
+    <div class="rollover-text">
+      Month ended with <strong id="rollover-amount-txt">0</strong> remaining.
+      <br/><small style="color:var(--text-muted)">What would you like to do with it?</small>
+    </div>
+    <div class="rollover-btns">
+      <button class="btn-primary" onclick="openRolloverModal()">💡 Decide</button>
+    </div>
+  </div>
+
+  <!-- Daily grid -->
+  <div class="card">
+    <div class="card-title">Daily Expense Log</div>
+    <div id="expense-grid" class="expense-grid"></div>
+  </div>
+
+  <!-- Chart -->
+  <div class="card">
+    <div class="card-title">Monthly Expense vs Budget</div>
+    <div class="chart-wrap"><canvas id="expense-chart" class="expense-chart"></canvas></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ══════════════════════════════════════════════════
+//  HIJRI CALCULATION
+// ══════════════════════════════════════════════════
+const HIJRI_MONTH_NAMES=['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal',
+  'Jumada al-Thani','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhul Qa'dah",'Dhul Hijjah'];
+
+// Anchor-based Hijri calculation — far more accurate than pure algorithms.
+// Anchor: 1 Shawwal 1447 AH = 20 March 2026 (confirmed moon sighting).
+// We count days from this anchor and walk the Hijri calendar forward/backward.
+// Hijri month lengths alternate 30/29 days (with occasional adjustments).
+const HIJRI_ANCHOR_GREG = new Date(2026, 2, 20); // 20 March 2026 = midnight
+const HIJRI_ANCHOR_HIJRI = { year: 1447, month: 10, day: 1 }; // 1 Shawwal 1447
+
+// Standard Hijri month lengths (30-day and 29-day alternating, starting Muharram)
+// months 1,3,5,7,9,11 = 30 days; months 2,4,6,8,10,12 = 29 days
+// Dhul Hijjah (12) gets 30 in leap years (every 2,5,7,10,13,16,18,21,24,26,29 in 30yr cycle)
+function hijriMonthLength(year, month) {
+  if (month % 2 === 1) return 30; // odd months = 30
+  if (month === 12) {
+    // leap year check
+    const rem = year % 30;
+    return [2,5,7,10,13,16,18,21,24,26,29].includes(rem) ? 30 : 29;
+  }
+  return 29;
+}
+
+function gregorianToHijri(gy, gm, gd) {
+  const greg = new Date(gy, gm - 1, gd);
+  greg.setHours(0, 0, 0, 0);
+
+  // Use user-confirmed anchor if saved, else hardcoded fallback
+  let anchorGreg, anchorHijri;
+  if (typeof state !== 'undefined' && state.hijriAnchorGreg && state.hijriAnchorHijri) {
+    const g = state.hijriAnchorGreg;
+    anchorGreg = new Date(g.y, g.m - 1, g.d);
+    anchorHijri = state.hijriAnchorHijri;
+  } else {
+    anchorGreg = new Date(HIJRI_ANCHOR_GREG);
+    anchorHijri = HIJRI_ANCHOR_HIJRI;
+  }
+  anchorGreg.setHours(0, 0, 0, 0);
+
+  // Days difference from anchor
+  const diffDays = Math.round((greg - anchorGreg) / 86400000);
+
+  let { year, month, day } = { ...anchorHijri };
+  day += diffDays;
+
+  // Walk forward
+  while (day > hijriMonthLength(year, month)) {
+    day -= hijriMonthLength(year, month);
+    month++;
+    if (month > 12) { month = 1; year++; }
+  }
+  // Walk backward
+  while (day < 1) {
+    month--;
+    if (month < 1) { month = 12; year--; }
+    day += hijriMonthLength(year, month);
+  }
+  return { year, month, day };
+}
+
+function getTodayHijri() {
+  const now = new Date(), ref = new Date(now);
+  if (now.getHours() >= 18) ref.setDate(ref.getDate() + 1);
+  return gregorianToHijri(ref.getFullYear(), ref.getMonth() + 1, ref.getDate());
+}
+
+// Override anchor with user-confirmed values if available
+function getHijriAnchors() {
+  if (state.hijriAnchorGreg && state.hijriAnchorHijri) {
+    const g = state.hijriAnchorGreg;
+    const h = state.hijriAnchorHijri;
+    // Temporarily override global anchor constants
+    return { greg: new Date(g.y, g.m - 1, g.d), hijri: h };
+  }
+  return { greg: HIJRI_ANCHOR_GREG, hijri: HIJRI_ANCHOR_HIJRI };
+}
+function hijriString(h) { return `${h.day} ${HIJRI_MONTH_NAMES[h.month-1]} ${h.year} AH`; }
+
+// ══════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════
+const state={
+  calendarType:null,
+  hijriAnchorGreg:null,   // {y,m,d} — user-confirmed Gregorian anchor date
+  hijriAnchorHijri:null,  // {year,month,day} — corresponding Hijri date
+  salah:{},quran:{},
+  habits:{build:[],change:[]},
+  habitChecks:{},   // key: type_id_YYYY-MM-DD → 'yes'|'no'|null
+  expenses:{},      // key: YYYY-MM-DD → number
+  income:{},        // key: monthKey → [{source,amount}]
+  savings:{},       // key: monthKey → number (deposit per month)
+  expBreakdown:{},  // key: YYYY-MM-DD → [{category, amount}]
+  rollover:{},      // key: monthKey → {action:'savings'|'income'|null, amount}
+  monthStartDay:1,
+};
+
+function save(){try{localStorage.setItem('journey_v4',JSON.stringify(state));}catch(e){}}
+function load(){
+  try{
+    const d=localStorage.getItem('journey_v4');if(!d)return;
+    const p=JSON.parse(d);
+    state.calendarType=p.calendarType||null;
+    state.hijriAnchorGreg=p.hijriAnchorGreg||null;
+    state.hijriAnchorHijri=p.hijriAnchorHijri||null;
+    Object.assign(state.salah,p.salah||{});Object.assign(state.quran,p.quran||{});
+    state.habits.build=p.habits?.build||[];state.habits.change=p.habits?.change||[];
+    Object.assign(state.habitChecks,p.habitChecks||{});
+    Object.assign(state.expenses,p.expenses||{});
+    Object.assign(state.expBreakdown,p.expBreakdown||{});
+    Object.assign(state.income,p.income||{});
+    Object.assign(state.savings,p.savings||{});
+    Object.assign(state.rollover,p.rollover||{});
+    state.monthStartDay=p.monthStartDay||1;
+  }catch(e){}
+}
+
+// ══════════════════════════════════════════════════
+//  CALENDAR MODAL
+// ══════════════════════════════════════════════════
+let pendingSwitchTo=null;
+function initModalDates(){
+  const now=new Date(),h=getTodayHijri();
+  const eng=now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const hstr=hijriString(h);
+  const note=now.getHours()>=18?'After sunset — Hijri date shown is for tomorrow':'Before sunset — today Hijri date';
+  document.getElementById('modal-date-preview').innerHTML=
+    `<strong>English:</strong> ${eng}<br/><strong>Hijri (estimated):</strong> ${hstr}<br/><small style="color:var(--yellow)">${note}</small>`;
+  document.getElementById('preview-english').textContent=now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  document.getElementById('preview-arabic').textContent='Tap to enter correct date';
+}
+let hijriClockInterval=null;
+
+function updateHijriInstructionBox(){
+  const now=new Date();
+  const hour=now.getHours();
+  const min=now.getMinutes();
+  const timeStr=now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const box=document.getElementById('hijri-instruction-box');
+  const clockEl=document.getElementById('hijri-live-clock');
+  const engEl=document.getElementById('hijri-confirm-eng');
+  if(clockEl) clockEl.textContent=timeStr;
+  if(engEl) engEl.textContent=now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  const isAfterSunset=(hour>=18);
+  if(box){
+    if(isAfterSunset){
+      box.style.background='rgba(240,192,64,0.1)';
+      box.style.borderColor='rgba(240,192,64,0.4)';
+      box.style.color='var(--text)';
+      box.innerHTML=
+        '<strong style="color:var(--gold)">🌅 It is after sunset ('+timeStr+')</strong><br/>'+
+        'The Islamic day has already <strong>moved forward</strong> to the next Hijri date at sunset.<br/>'+
+        '<span style="color:var(--gold)">➜ Enter <strong>tomorrow</strong> Hijri date below.</span><br/>'+
+        '<small style="color:var(--text-muted)">Example: if yesterday was 9 Shawwal, enter <strong>10 Shawwal</strong> now.</small>';
+    } else {
+      box.style.background='rgba(46,204,113,0.08)';
+      box.style.borderColor='rgba(46,204,113,0.3)';
+      box.style.color='var(--text)';
+      box.innerHTML=
+        '<strong style="color:#2ecc71">☀️ It is before sunset ('+timeStr+')</strong><br/>'+
+        'The Islamic day has <strong>not yet changed</strong> — today Hijri date is still active.<br/>'+
+        '<span style="color:#2ecc71">➜ Enter <strong>today</strong> Hijri date below.</span><br/>'+
+        '<small style="color:var(--text-muted)">Example: if today is 9 Shawwal, enter <strong>9 Shawwal</strong>.</small>';
+    }
+  }
+  // Update the pre-filled values to match the instruction
+  const h=getTodayHijri(); // already applies sunset rule
+  const dayInp=document.getElementById('hijri-confirm-day');
+  const monInp=document.getElementById('hijri-confirm-month');
+  const yrInp=document.getElementById('hijri-confirm-year');
+  // Only auto-update if user hasn't manually changed the value
+  if(dayInp&&dayInp.dataset.userEdited!=='true'){
+    dayInp.value=h.day;
+    monInp.value=h.month;
+    yrInp.value=h.year;
+  }
+}
+
+function showHijriConfirm(){
+  document.getElementById('cal-step-1').style.display='none';
+  document.getElementById('cal-step-2').style.display='block';
+  // Mark inputs as not user-edited yet
+  const inputs=['hijri-confirm-day','hijri-confirm-month','hijri-confirm-year'];
+  inputs.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.dataset.userEdited='false';
+      el.addEventListener('input',function(){this.dataset.userEdited='true';},{once:true});
+    }
+  });
+  // Start live clock
+  if(hijriClockInterval)clearInterval(hijriClockInterval);
+  updateHijriInstructionBox();
+  hijriClockInterval=setInterval(updateHijriInstructionBox,1000);
+}
+
+function backToStep1(){
+  if(hijriClockInterval){clearInterval(hijriClockInterval);hijriClockInterval=null;}
+  document.getElementById('cal-step-2').style.display='none';
+  document.getElementById('cal-step-1').style.display='block';
+}
+
+function confirmHijriDate(){
+  if(hijriClockInterval){clearInterval(hijriClockInterval);hijriClockInterval=null;}
+  const day=parseInt(document.getElementById('hijri-confirm-day').value);
+  const month=parseInt(document.getElementById('hijri-confirm-month').value);
+  const year=parseInt(document.getElementById('hijri-confirm-year').value);
+  if(!day||!month||!year||day<1||day>30||month<1||month>12||year<1400){
+    alert('Please enter a valid Hijri date.');return;
+  }
+  // Save anchor: use same sunset rule as getTodayHijri so diffDays is always 0 at confirm time
+  const _now=new Date();
+  const _ref=new Date(_now);
+  if(_now.getHours()>=18) _ref.setDate(_ref.getDate()+1); // same rule as getTodayHijri
+  _ref.setHours(0,0,0,0);
+  state.hijriAnchorGreg={y:_ref.getFullYear(),m:_ref.getMonth()+1,d:_ref.getDate()};
+  state.hijriAnchorHijri={year,month,day};
+  state.calendarType='arabic';
+  save();
+  document.getElementById('cal-modal').classList.remove('open');
+  document.getElementById('salah-setup-card').style.display='none';
+  document.getElementById('salah-main-content').style.display='block';
+  updateTodayBanner();updateBadge();renderSalahSection();
+}
+function chooseCalendar(type){
+  // Legacy function kept for the old modal switch button - redirect to new flow
+  state.calendarType=type;save();
+  document.getElementById('cal-modal').classList.remove('open');
+  document.getElementById('salah-setup-card').style.display='none';
+  document.getElementById('salah-main-content').style.display='block';
+  updateTodayBanner();updateBadge();
+  renderSalahSection();
+}
+
+// ── New inline setup functions ──
+let setupClockInterval=null;
+
+function setupUpdateClock(){
+  const now=new Date();
+  const timeStr=now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const el=document.getElementById('setup-live-clock');
+  const engEl=document.getElementById('setup-eng-date');
+  const instEl=document.getElementById('setup-instruction');
+  if(el) el.textContent=timeStr;
+  if(engEl) engEl.textContent=now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  if(instEl){
+    const after=now.getHours()>=18;
+    if(after){
+      instEl.style.background='rgba(240,192,64,0.1)';instEl.style.borderColor='rgba(240,192,64,0.4)';
+      instEl.innerHTML='<strong style="color:var(--gold)">After sunset ('+timeStr+')</strong><br/>Islamic day has moved forward. Enter <strong>tomorrow</strong> Hijri date.<br/><small style="color:var(--text-muted)">e.g. if yesterday was 9 Shawwal, enter 10 Shawwal</small>';
+    } else {
+      instEl.style.background='rgba(46,204,113,0.08)';instEl.style.borderColor='rgba(46,204,113,0.3)';
+      instEl.innerHTML='<strong style="color:#2ecc71">Before sunset ('+timeStr+')</strong><br/>The Hijri date has not changed yet. Enter <strong>today</strong> Hijri date.<br/><small style="color:var(--text-muted)">e.g. if today is 9 Shawwal, enter 9 Shawwal</small>';
+    }
+  }
+  // Auto-fill inputs only if not user-edited
+  const h=getTodayHijri();
+  const dayInp=document.getElementById('setup-hijri-day');
+  const monInp=document.getElementById('setup-hijri-month');
+  const yrInp=document.getElementById('setup-hijri-year');
+  if(dayInp&&dayInp.dataset.edited!=='1'){ dayInp.value=h.day; monInp.value=h.month; yrInp.value=h.year; }
+}
+
+function setupChooseCalendar(type){
+  if(type==='english'){
+    state.calendarType='english';save();
+    if(setupClockInterval){clearInterval(setupClockInterval);setupClockInterval=null;}
+    document.getElementById('salah-setup-card').style.display='none';
+    document.getElementById('salah-main-content').style.display='block';
+    updateBadge();renderSalahSection();
+  } else {
+    // Show step B - Hijri date entry
+    document.getElementById('setup-step-a').style.display='none';
+    document.getElementById('setup-step-b').style.display='block';
+    // Mark inputs as not edited
+    ['setup-hijri-day','setup-hijri-month','setup-hijri-year'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){ el.dataset.edited='0'; el.addEventListener('input',function(){this.dataset.edited='1';},{once:true}); }
+    });
+    setupUpdateClock();
+    if(setupClockInterval)clearInterval(setupClockInterval);
+    setupClockInterval=setInterval(setupUpdateClock,1000);
+  }
+}
+
+function setupBackToA(){
+  if(setupClockInterval){clearInterval(setupClockInterval);setupClockInterval=null;}
+  document.getElementById('setup-step-b').style.display='none';
+  if(state.calendarType){
+    // Already configured - going back means cancel re-entry, restore main content
+    document.getElementById('salah-setup-card').style.display='none';
+    document.getElementById('salah-main-content').style.display='block';
+  } else {
+    document.getElementById('setup-step-a').style.display='block';
+  }
+}
+
+function setupConfirmHijri(){
+  if(setupClockInterval){clearInterval(setupClockInterval);setupClockInterval=null;}
+  const day=parseInt(document.getElementById('setup-hijri-day').value);
+  const month=parseInt(document.getElementById('setup-hijri-month').value);
+  const year=parseInt(document.getElementById('setup-hijri-year').value);
+  if(!day||!month||!year||day<1||day>30||month<1||month>12||year<1400){
+    alert('Please enter a valid Hijri date.');return;
+  }
+  const _now=new Date();
+  const _ref=new Date(_now);
+  if(_now.getHours()>=18)_ref.setDate(_ref.getDate()+1);
+  _ref.setHours(0,0,0,0);
+  state.hijriAnchorGreg={y:_ref.getFullYear(),m:_ref.getMonth()+1,d:_ref.getDate()};
+  state.hijriAnchorHijri={year,month,day};
+  state.calendarType='arabic';
+  save();
+  document.getElementById('salah-setup-card').style.display='none';
+  document.getElementById('salah-main-content').style.display='block';
+  updateTodayBanner();updateBadge();renderSalahSection();
+}
+function requestSwitch(){
+  pendingSwitchTo=state.calendarType==='english'?'arabic':'english';
+  document.getElementById('switch-modal').classList.add('open');
+}
+function confirmSwitch(){
+  state.calendarType=pendingSwitchTo;pendingSwitchTo=null;save();
+  document.getElementById('switch-modal').classList.remove('open');
+  updateBadge();renderSalahSection();
+}
+function cancelSwitch(){
+  pendingSwitchTo=null;document.getElementById('switch-modal').classList.remove('open');
+}
+function updateBadge(){
+  const b=document.getElementById('cal-badge');if(!b)return;
+  const rb=document.getElementById('hijri-reenter-btn');
+  if(state.calendarType==='arabic'){
+    b.textContent='🌙 Hijri — tap to switch';b.className='cal-badge arabic';
+    if(rb)rb.style.display='block';
+  } else {
+    b.textContent='📅 English — tap to switch';b.className='cal-badge english';
+    if(rb)rb.style.display='none';
+  }
+}
+function reenterHijriDate(){
+  // Show the inline setup step B directly (skipping step A since calendar already chosen)
+  document.getElementById('salah-main-content').style.display='none';
+  document.getElementById('salah-setup-card').style.display='block';
+  document.getElementById('setup-step-a').style.display='none';
+  document.getElementById('setup-step-b').style.display='block';
+  ['setup-hijri-day','setup-hijri-month','setup-hijri-year'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){ el.dataset.edited='0'; el.addEventListener('input',function(){this.dataset.edited='1';},{once:true}); }
+  });
+  setupUpdateClock();
+  if(setupClockInterval)clearInterval(setupClockInterval);
+  setupClockInterval=setInterval(setupUpdateClock,1000);
+}
+function updateTodayBanner(){
+  const now=new Date(),h=getTodayHijri();
+  document.getElementById('banner-english').textContent=now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('banner-hijri').textContent=hijriString(h);
+}
+
+// ══════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════
+function goTo(section){
+  const nav=document.getElementById('nav-bar');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('home').style.display='none';
+  if(section==='home'){document.getElementById('home').style.display='flex';nav.style.display='none';return;}
+  nav.style.display='flex';nav.classList.add('minimized');
+  document.getElementById(section).classList.add('active');
+  if(section==='salah'){
+    updateTodayBanner();updateBadge();
+    if(!state.calendarType){
+      // First time — show inline setup card, hide main content
+      document.getElementById('salah-setup-card').style.display='block';
+      document.getElementById('salah-main-content').style.display='none';
+      document.getElementById('setup-step-a').style.display='block';
+      document.getElementById('setup-step-b').style.display='none';
+    } else {
+      // Already configured — show main content directly
+      document.getElementById('salah-setup-card').style.display='none';
+      document.getElementById('salah-main-content').style.display='block';
+      renderSalahSection();
+    }
+  }
+  if(section==='habit')renderHabitSection();
+  if(section==='expense')renderExpense();
+}
+
+// ══════════════════════════════════════════════════
+//  SALAH — 5 STATES
+//  0=empty 1=✅jamah 2=🟩alone 3=🟡late 4=❌missed → 0
+// ══════════════════════════════════════════════════
+const WAKTS=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+// Using text/emoji combos that are widely supported
+const S_ICONS=['','✅','🟩','🟡','❌'];
+const S_TIPS =['','Jamah (on time)','Alone (on time)','Late / Qadha','Missed'];
+let salahChartInst=null,quranChartInst=null;
+
+function getMonthKey(){
+  if(state.calendarType==='arabic'){
+    const mi=document.getElementById('hijri-month-sel')?.value??'9';
+    const y=document.getElementById('hijri-year-inp')?.value??'1447';
+    return`h_${mi}_${y}`;
+  }
+  const mi=document.getElementById('eng-month-sel')?.value??new Date().getMonth();
+  const y=document.getElementById('eng-year-inp')?.value??new Date().getFullYear();
+  return`e_${mi}_${y}`;
+}
+function getDays(){
+  if(state.calendarType==='arabic')return parseInt(document.getElementById('hijri-days-inp')?.value)||30;
+  const m=parseInt(document.getElementById('eng-month-sel')?.value??new Date().getMonth());
+  const y=parseInt(document.getElementById('eng-year-inp')?.value??new Date().getFullYear());
+  return new Date(y,m+1,0).getDate();
+}
+function getTodayCol(){
+  const now=new Date();
+  if(state.calendarType==='arabic'){
+    const h=getTodayHijri();
+    const mi=parseInt(document.getElementById('hijri-month-sel')?.value??-1);
+    const y=parseInt(document.getElementById('hijri-year-inp')?.value??-1);
+    if((h.month-1)===mi&&h.year===y)return h.day;
+  }else{
+    const mi=parseInt(document.getElementById('eng-month-sel')?.value??-1);
+    const y=parseInt(document.getElementById('eng-year-inp')?.value??-1);
+    if(now.getMonth()===mi&&now.getFullYear()===y)return now.getDate();
+  }
+  return null;
+}
+function sKey(mk,w,d){return`${mk}__${w}__${d}`;}
+function qKey(mk,d){return`${mk}__qr__${d}`;}
+
+function renderSalahSection(){
+  const isAr=state.calendarType==='arabic';
+  document.getElementById('english-month-row').style.display=isAr?'none':'flex';
+  document.getElementById('hijri-month-row').style.display=isAr?'flex':'none';
+  const now=new Date();
+  if(isAr){
+    const h=getTodayHijri();
+    document.getElementById('hijri-month-sel').value=h.month-1;
+    document.getElementById('hijri-year-inp').value=h.year;
+    document.getElementById('hijri-days-inp').value=h.month%2===1?30:29;
+  }else{
+    document.getElementById('eng-month-sel').value=now.getMonth();
+    document.getElementById('eng-year-inp').value=now.getFullYear();
+  }
+  renderSalahTable();
+}
+
+function renderSalahTable(){
+  const wrap=document.getElementById('salah-table-wrap');if(!wrap)return;
+  const mk=getMonthKey(),days=getDays(),tod=getTodayCol();
+  let h='<table class="tracker-table"><thead><tr>';
+  h+='<th style="min-width:90px">Wakt / Day</th>';
+  for(let d=1;d<=days;d++){
+    const c=d===tod?'today-col-header':'';h+=`<th class="${c}">${d}</th>`;
+  }
+  h+='</tr></thead><tbody>';
+  for(const w of WAKTS){
+    h+=`<tr><td class="row-label">${w}</td>`;
+    for(let d=1;d<=days;d++){
+      const key=sKey(mk,w,d),st=state.salah[key]||0,tc=d===tod?'today-col':'';
+      h+=`<td class="${tc}"><div class="salah-cell" data-state="${st}" data-key="${key}" 
+        title="${S_TIPS[st]}" onclick="cycleSalah(this)">${S_ICONS[st]}</div></td>`;
+    }
+    h+='</tr>';
+  }
+  h+=`<tr><td class="row-label" style="color:#d4a843">📖 Quran<br><small style="font-size:.68rem;color:var(--text-muted)">(pages/lines)</small></td>`;
+  for(let d=1;d<=days;d++){
+    const key=qKey(mk,d),val=state.quran[key]||'',tc=d===tod?'today-col':'';
+    h+=`<td class="${tc}"><input class="quran-cell-input" type="number" value="${val}" min="0" 
+      data-key="${key}" onchange="saveQuran(this)" placeholder="0"/></td>`;
+  }
+  h+='</tr></tbody></table>';
+  wrap.innerHTML=h;
+  renderSalahChart();
+}
+
+function cycleSalah(el){
+  const key=el.dataset.key;
+  let st=parseInt(el.dataset.state)||0;
+  st=st>=4?0:st+1;
+  state.salah[key]=st;el.dataset.state=st;
+  el.textContent=S_ICONS[st];el.title=S_TIPS[st];
+  save();renderSalahChart();
+}
+function saveQuran(el){state.quran[el.dataset.key]=parseFloat(el.value)||0;save();renderSalahChart();}
+
+function renderSalahChart(){
+  const mk=getMonthKey(),days=getDays(),tod=getTodayCol();
+  const labels=Array.from({length:days},(_,i)=>i+1);
+  const jamah =labels.map(d=>WAKTS.filter(w=>state.salah[sKey(mk,w,d)]===1).length);
+  const alone =labels.map(d=>WAKTS.filter(w=>state.salah[sKey(mk,w,d)]===2).length);
+  const late  =labels.map(d=>WAKTS.filter(w=>state.salah[sKey(mk,w,d)]===3).length);
+  const missed=labels.map(d=>WAKTS.filter(w=>state.salah[sKey(mk,w,d)]===4).length);
+  const quranV=labels.map(d=>state.quran[qKey(mk,d)]||0);
+
+  const sc=document.getElementById('salah-chart');
+  if(salahChartInst)salahChartInst.destroy();
+  if(sc)salahChartInst=new Chart(sc,{type:'bar',data:{labels,datasets:[
+    {label:'✅ Jamah',  data:jamah,  backgroundColor:'rgba(46,204,113,.8)', borderRadius:3,stack:'s'},
+    {label:'🟩 Alone', data:alone,  backgroundColor:'rgba(39,174,96,.6)',  borderRadius:3,stack:'s'},
+    {label:'🟡 Late',  data:late,   backgroundColor:'rgba(241,196,15,.75)',borderRadius:3,stack:'s'},
+    {label:'❌ Missed',data:missed, backgroundColor:'rgba(231,76,60,.75)', borderRadius:3,stack:'s'},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#7db2d4',font:{size:10,family:'Nunito'},boxWidth:12}},
+      tooltip:{callbacks:{title:ctx=>`Day ${ctx[0].label}`}}},
+    scales:{
+      x:{stacked:true,ticks:{color:ctx=>ctx.tick.value+1===tod?'#00e5e4':'#7db2d4',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},
+      y:{stacked:true,max:5,ticks:{color:'#7db2d4',stepSize:1,font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}}
+    }}});
+
+  const qc=document.getElementById('quran-chart');
+  if(quranChartInst)quranChartInst.destroy();
+  if(qc)quranChartInst=new Chart(qc,{type:'line',data:{labels,datasets:[{
+    label:'Pages/Lines',data:quranV,borderColor:'rgba(232,184,75,.7)',backgroundColor:'rgba(232,184,75,.06)',
+    pointBackgroundColor:quranV.map((v,i)=>i+1===tod?'#00e5e4':v>0?'#f0c040':'rgba(240,192,64,.2)'),
+    pointRadius:4,tension:.3,fill:true,spanGaps:true
+  }]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#7db2d4',font:{size:10}}}},
+    scales:{x:{ticks:{color:'#7db2d4',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},
+      y:{ticks:{color:'#7db2d4',font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}}}}});
+}
+
+// ══════════════════════════════════════════════════
+//  HABIT SECTION — Day navigator
+// ══════════════════════════════════════════════════
+let habitCurrentDate=null; // JS Date object for selected day
+let habitChartInst=null;
+let habitChartInstances={};
+const HABIT_COLORS_BUILD =['#5dd6d6','#5ba3d4','#8e72c4','#3abfaa','#d4a843','#7ec8c8'];
+const HABIT_COLORS_CHANGE=['#c87a6a','#c4956a','#b06058','#b87a58','#9b7ec4','#4aaa9a'];
+
+function habitDateKey(d){
+  return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function renderHabitSection(){
+  if(!habitCurrentDate)habitCurrentDate=new Date();
+  habitCurrentDate.setHours(0,0,0,0);
+  const now=new Date();now.setHours(0,0,0,0);
+  // Init graph month/year to current
+  document.getElementById('habit-graph-month').value=now.getMonth();
+  document.getElementById('habit-graph-year').value=now.getFullYear();
+  renderHabitDay();
+  renderHabitChart();
+}
+
+function habitNavDay(dir){
+  const now=new Date();now.setHours(0,0,0,0);
+  const next=new Date(habitCurrentDate);
+  next.setDate(next.getDate()+dir);
+  if(dir>0&&next>now)return; // cannot go to future
+  habitCurrentDate=next;
+  renderHabitDay();
+}
+
+function renderHabitDay(){
+  const now=new Date();now.setHours(0,0,0,0);
+  const d=habitCurrentDate;
+  const isToday=d.getTime()===now.getTime();
+  const dateStr=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('habit-date-label').textContent=dateStr;
+  document.getElementById('habit-date-sub').textContent=isToday?'📍 Today':'';
+  document.getElementById('habit-next-btn').disabled=(d.getTime()>=now.getTime());
+
+  renderHabitList('build');
+  renderHabitList('change');
+}
+
+function renderHabitList(type){
+  const list=document.getElementById(`${type}-list`);
+  list.innerHTML='';
+  for(const habit of state.habits[type]){
+    const dk=habitDateKey(habitCurrentDate);
+    const checkKey=`${type}_${habit.id}_${dk}`;
+    const val=state.habitChecks[checkKey]||null; // 'yes'|'no'|null
+    const row=document.createElement('div');row.className='habit-record-row';
+    const labelClass=type==='build'?'build-label':'change-label';
+    row.innerHTML=`
+      <span class="habit-record-name ${labelClass}">${habit.name}</span>
+      <div class="habit-toggle-group">
+        <button class="habit-toggle-btn ${val==='yes'?'yes-active':''}" 
+          onclick="setHabitCheck('${type}','${habit.id}','yes')">
+          <span style="font-size:.8rem">◆</span> Done
+        </button>
+        <button class="habit-toggle-btn ${val==='no'?'no-active':''}"
+          onclick="setHabitCheck('${type}','${habit.id}','no')">
+          <span style="font-size:.8rem">◇</span> Skip
+        </button>
+      </div>
+      <button class="btn-remove-sm" onclick="removeHabit('${type}','${habit.id}')">Remove</button>`;
+    list.appendChild(row);
+  }
+}
+
+function setHabitCheck(type,id,val){
+  const dk=habitDateKey(habitCurrentDate);
+  const key=`${type}_${id}_${dk}`;
+  // Toggle: clicking same again clears it
+  state.habitChecks[key]=(state.habitChecks[key]===val)?null:val;
+  save();
+  renderHabitList(type);
+  renderHabitChart();
+}
+
+function addHabit(type){
+  const inp=document.getElementById(`${type}-name-inp`),name=inp.value.trim();
+  if(!name)return;
+  state.habits[type].push({id:Date.now().toString(),name});
+  inp.value='';save();renderHabitDay();renderHabitChart();
+}
+function removeHabit(type,id){
+  state.habits[type]=state.habits[type].filter(h=>h.id!==id);save();renderHabitDay();renderHabitChart();
+}
+
+function renderHabitChart(){
+  const month=parseInt(document.getElementById('habit-graph-month')?.value??new Date().getMonth());
+  const year=parseInt(document.getElementById('habit-graph-year')?.value??new Date().getFullYear());
+  const days=new Date(year,month+1,0).getDate();
+  const dayLabels=Array.from({length:days},(_,i)=>i+1);
+  const now=new Date();now.setHours(0,0,0,0);
+
+  const container=document.getElementById('habit-charts-container');
+  if(!container)return;
+
+  // Destroy existing chart instances
+  Object.keys(habitChartInstances).forEach(k=>{
+    try{habitChartInstances[k].destroy();}catch(e){}
+    delete habitChartInstances[k];
+  });
+  container.innerHTML='';
+
+  const allHabits=[
+    ...state.habits.build.map((h,i)=>({...h,type:'build',colorIdx:i})),
+    ...state.habits.change.map((h,i)=>({...h,type:'change',colorIdx:i}))
+  ];
+
+  if(!allHabits.length){
+    container.innerHTML='<p style="color:var(--text-muted);font-size:.88rem;text-align:center;padding:24px">Add habits above to see graphs.</p>';
+    return;
+  }
+
+  allHabits.forEach(function(habit){
+    const isBuild=habit.type==='build';
+    const colors=isBuild?HABIT_COLORS_BUILD:HABIT_COLORS_CHANGE;
+    const color=colors[habit.colorIdx%colors.length];
+    const typeTag=isBuild
+      ?'<span style="background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.3);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;margin-left:6px">BUILD</span>'
+      :'<span style="background:rgba(231,76,60,.15);color:#e74c3c;border:1px solid rgba(231,76,60,.3);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;margin-left:6px">CHANGE</span>';
+
+    // Data: 1=done, 0=not done, null=not recorded
+    var data=dayLabels.map(function(d){
+      var date=new Date(year,month,d);date.setHours(0,0,0,0);
+      if(date>now)return null;
+      var key=habit.type+'_'+habit.id+'_'+year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      var v=state.habitChecks[key];
+      return v==='yes'?1:v==='no'?0:null;
+    });
+
+    var ptBg=data.map(function(v){
+      if(v===null)return 'rgba(255,255,255,0.15)';
+      return v===1?color:'rgba(180,70,60,0.6)';
+    });
+    var ptR=data.map(function(v){return v===null?2:5;});
+
+    // Create wrapper block
+    var block=document.createElement('div');
+    block.className='habit-chart-block';
+    var cid='hc_'+habit.id;
+    // Use a wrapper div with explicit height for Chart.js
+    block.innerHTML=
+      '<div style="display:flex;align-items:center;margin-bottom:8px">'+
+        '<span style="font-size:.9rem;font-weight:700;color:'+color+'">'+habit.name+'</span>'+
+        typeTag+
+      '</div>'+
+      '<div style="position:relative;height:80px">'+
+        '<canvas id="'+cid+'"></canvas>'+
+      '</div>';
+    container.appendChild(block);
+
+    var canvas=document.getElementById(cid);
+    if(!canvas)return;
+
+    habitChartInstances[cid]=new Chart(canvas,{
+      type:'line',
+      data:{
+        labels:dayLabels,
+        datasets:[{
+          data:data,
+          borderColor:color,
+          backgroundColor:'rgba(0,0,0,0)',
+          pointBackgroundColor:ptBg,
+          pointRadius:ptR,
+          pointHoverRadius:7,
+          tension:0.3,
+          fill:true,
+          spanGaps:false,
+          borderWidth:2
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{
+            title:function(ctx){return 'Day '+ctx[0].label;},
+            label:function(ctx){
+              var v=ctx.raw;
+              if(v===null)return 'Not recorded';
+              return v===1?'Done ✅':'Not done ❌';
+            }
+          }}
+        },
+        scales:{
+          x:{ticks:{color:'#7db2d4',font:{size:9},maxRotation:0},grid:{color:'rgba(255,255,255,0.04)'}},
+          y:{
+            min:-0.15,max:1.15,
+            ticks:{color:'#7db2d4',font:{size:9},stepSize:1,callback:function(v){return v===1?'Yes':v===0?'No':'';}},
+            grid:{color:'rgba(255,255,255,0.04)'}
+          }
+        }
+      }
+    });
+  });
+}
+
+// ══════════════════════════════════════════════════
+//  EXPENSE — CUSTOM MONTH START
+// ══════════════════════════════════════════════════
+// Returns ordered array of {dateObj, label} for the custom period
+function getExpensePeriod(){
+  const month=parseInt(document.getElementById('expense-month-sel').value);
+  const year=parseInt(document.getElementById('expense-year-inp').value)||new Date().getFullYear();
+  const startDay=parseInt(document.getElementById('month-start-day').value)||1;
+  const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  const days=[];
+  // Start from startDay of selected month to startDay-1 of next month
+  let cur=new Date(year,month,startDay);
+  const end=new Date(year,month+1,startDay); // exclusive
+  while(cur<end){
+    const y=cur.getFullYear(),m=cur.getMonth(),d=cur.getDate();
+    const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const label=`${d} ${MN[m]}`;
+    days.push({key,label,d,m,y,dateObj:new Date(cur)});
+    cur.setDate(cur.getDate()+1);
+  }
+  return days;
+}
+
+function getExpenseMonthKey(){
+  const month=parseInt(document.getElementById('expense-month-sel').value);
+  const year=parseInt(document.getElementById('expense-year-inp').value)||new Date().getFullYear();
+  return`${year}_${month}`;
+}
+
+// ══════════════════════════════════════════════════
+//  INCOME MODAL
+// ══════════════════════════════════════════════════
+function openIncomeModal(){
+  renderIncomeBreakdown();
+  document.getElementById('income-modal').classList.add('open');
+}
+function closeIncomeModal(){document.getElementById('income-modal').classList.remove('open');renderExpense();}
+function renderIncomeBreakdown(){
+  const mk=getExpenseMonthKey();
+  const entries=state.income[mk]||[];
+  const list=document.getElementById('income-breakdown-list');
+  list.innerHTML='';
+  if(!entries.length){list.innerHTML='<p style="color:var(--text-muted);font-size:.85rem;margin-bottom:10px">No income entries yet.</p>';return;}
+  entries.forEach((e,i)=>{
+    const row=document.createElement('div');row.className='breakdown-item';
+    row.innerHTML=`<span class="b-source">${e.source}</span>
+      <span class="b-amount">+${Number(e.amount).toLocaleString()}</span>
+      <button class="b-del" onclick="removeIncomeEntry(${i})">🗑</button>`;
+    list.appendChild(row);
+  });
+  const total=entries.reduce((s,e)=>s+Number(e.amount),0);
+  document.getElementById('income-modal-total').textContent=total.toLocaleString();
+}
+function addIncomeEntry(){
+  const src=document.getElementById('income-source-inp').value.trim();
+  const amt=parseFloat(document.getElementById('income-amount-inp').value)||0;
+  if(!src||!amt)return;
+  const mk=getExpenseMonthKey();
+  if(!state.income[mk])state.income[mk]=[];
+  state.income[mk].push({source:src,amount:amt});
+  document.getElementById('income-source-inp').value='';
+  document.getElementById('income-amount-inp').value='';
+  save();renderIncomeBreakdown();
+}
+function removeIncomeEntry(i){
+  const mk=getExpenseMonthKey();
+  state.income[mk].splice(i,1);save();renderIncomeBreakdown();
+}
+
+// ══════════════════════════════════════════════════
+//  ROLLOVER MODAL
+// ══════════════════════════════════════════════════
+function openRolloverModal(){document.getElementById('rollover-modal').classList.add('open');}
+function closeRolloverModal(){document.getElementById('rollover-modal').classList.remove('open');}
+function doRollover(action){
+  const mk=getExpenseMonthKey();
+  const remaining=calcRemaining();
+  state.rollover[mk]={action,amount:remaining};
+  // Apply
+  if(action==='savings'){
+    state.savings[mk]=(state.savings[mk]||0)+remaining;
+  }else if(action==='income'){
+    // Add to next month income
+    const month=parseInt(document.getElementById('expense-month-sel').value);
+    const year=parseInt(document.getElementById('expense-year-inp').value)||new Date().getFullYear();
+    const nextDate=new Date(year,month+1,1);
+    const nmk=`${nextDate.getFullYear()}_${nextDate.getMonth()}`;
+    if(!state.income[nmk])state.income[nmk]=[];
+    state.income[nmk].push({source:`Rollover from ${new Date(year,month).toLocaleString('default',{month:'long'})}`,amount:remaining});
+  }
+  save();closeRolloverModal();renderExpense();
+}
+
+function calcRemaining(){
+  const mk=getExpenseMonthKey();
+  const totalIncome=(state.income[mk]||[]).reduce((s,e)=>s+Number(e.amount),0);
+  const savingsDeposit=parseFloat(document.getElementById('savings-deposit')?.value)||0;
+  const period=getExpensePeriod();
+  const now=new Date();now.setHours(23,59,59,999);
+  const totalExp=period.reduce((s,p)=>{
+    if(p.dateObj>now)return s;
+    const entries=state.expBreakdown[p.key]||[];
+    return s+entries.reduce((a,e)=>a+Number(e.amount),0);
+  },0);
+  return totalIncome-savingsDeposit-totalExp;
+}
+
+// ══════════════════════════════════════════════════
+//  EXPENSE RENDER
+// ══════════════════════════════════════════════════
+let expChartInst=null;
+function renderExpense(){
+  const now=new Date();
+  const mSel=document.getElementById('expense-month-sel'),ySel=document.getElementById('expense-year-inp');
+  if(!ySel.value){mSel.value=now.getMonth();ySel.value=now.getFullYear();}
+
+  const mk=getExpenseMonthKey();
+  const limit=parseFloat(document.getElementById('expense-limit').value)||1000;
+  const savingsDeposit=parseFloat(document.getElementById('savings-deposit').value)||0;
+  const period=getExpensePeriod();
+  const startDay=parseInt(document.getElementById('month-start-day').value)||1;
+
+  // Sync savings deposit to state
+  state.savings[mk]=savingsDeposit;save();
+
+  // Calc totals
+  const totalIncome=(state.income[mk]||[]).reduce((s,e)=>s+Number(e.amount),0);
+  const nowCeil=new Date();nowCeil.setHours(23,59,59,999);
+  const totalExp=period.reduce((s,p)=>{
+    if(p.dateObj>nowCeil)return s;
+    const entries=state.expBreakdown[p.key]||[];
+    return s+entries.reduce((a,e)=>a+Number(e.amount),0);
+  },0);
+  const remaining=totalIncome-savingsDeposit-totalExp;
+
+  document.getElementById('sum-income').textContent=totalIncome.toLocaleString();
+  document.getElementById('sum-savings').textContent=savingsDeposit.toLocaleString();
+  document.getElementById('sum-expenses').textContent=totalExp.toLocaleString();
+  const remEl=document.getElementById('sum-remaining');
+  remEl.textContent=(remaining<0?'-':'')+Math.abs(remaining).toLocaleString();
+  remEl.style.color=remaining<0?'var(--red)':'var(--teal-light)';
+
+  // Check if period ended
+  const lastDay=period[period.length-1];
+  const periodEnded=lastDay&&nowCeil>lastDay.dateObj;
+  const rollPanel=document.getElementById('rollover-panel');
+  if(periodEnded&&remaining>0&&!state.rollover[mk]){
+    rollPanel.classList.add('show');
+    document.getElementById('rollover-amount-txt').textContent=remaining.toLocaleString();
+    document.getElementById('rollover-modal-text').textContent=
+      `This period ended with ${remaining.toLocaleString()} remaining. Add to savings or next month income?`;
+  }else{rollPanel.classList.remove('show');}
+
+  // Build grid
+  const grid=document.getElementById('expense-grid');grid.innerHTML='';
+  period.forEach((p,idx)=>{
+    const entries=state.expBreakdown[p.key]||[];
+    const total=entries.reduce((s,e)=>s+Number(e.amount),0);
+    const hasV=entries.length>0;
+    const cls=hasV?(total>limit?'over':'under'):'';
+    const icon=hasV?(total>limit?'🔴':'🟢'):'';
+    const isFuture=p.dateObj>nowCeil;
+    const card=document.createElement('div');card.className=`expense-day-card ${cls}`;card.id=`exp-card-${idx}`;
+    const totalStr=hasV?total.toLocaleString():'tap';
+    const countStr=hasV?`${entries.length} item${entries.length===1?'':'s'}`:'to add';
+    const disabledAttr=isFuture?'disabled':'';
+    card.innerHTML=`<div class="day-num">${p.label}</div>
+      <button class="exp-day-open-btn" ${disabledAttr}
+        onclick="openExpDayModal('${p.key}','${p.label}',${limit},${idx})"
+        style="${isFuture?'opacity:.35;cursor:not-allowed':''}">
+        <span class="exp-day-total-txt">${totalStr}</span>
+        <span class="exp-day-count-txt">${countStr}</span>
+      </button>
+      <div class="status-icon" id="exp-icon-${idx}">${icon}</div>`;
+    grid.appendChild(card);
+  });
+
+  drawExpChart(period,limit,nowCeil);
+}
+
+// ── Expense Day Breakdown Modal ──
+let expDayCurrentKey=null, expDayCurrentIdx=null, expDayCurrentLimit=0;
+
+function openExpDayModal(key,label,limit,idx){
+  expDayCurrentKey=key; expDayCurrentIdx=idx; expDayCurrentLimit=limit;
+  document.getElementById('exp-day-modal-title').textContent=label;
+  document.getElementById('exp-day-cat-inp').value='';
+  document.getElementById('exp-day-amt-inp').value='';
+  // Clear active chip
+  document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));
+  renderExpDayList();
+  document.getElementById('exp-day-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('exp-day-cat-inp').focus(),100);
+}
+function closeExpDayModal(){
+  document.getElementById('exp-day-modal').classList.remove('open');
+  refreshExpSummaries();
+  renderExpense(); // re-render grid to show updated totals
+}
+function setExpCategory(cat){
+  document.getElementById('exp-day-cat-inp').value=cat;
+  document.querySelectorAll('.exp-chip').forEach(c=>{
+    c.classList.toggle('active', c.textContent.includes(cat));
+  });
+  document.getElementById('exp-day-amt-inp').focus();
+}
+function addExpDayEntry(){
+  const cat=document.getElementById('exp-day-cat-inp').value.trim()||'Other';
+  const amt=parseFloat(document.getElementById('exp-day-amt-inp').value);
+  if(!amt||isNaN(amt))return;
+  if(!state.expBreakdown[expDayCurrentKey])state.expBreakdown[expDayCurrentKey]=[];
+  state.expBreakdown[expDayCurrentKey].push({category:cat,amount:amt});
+  document.getElementById('exp-day-cat-inp').value='';
+  document.getElementById('exp-day-amt-inp').value='';
+  document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));
+  save();
+  renderExpDayList();
+  document.getElementById('exp-day-cat-inp').focus();
+}
+function removeExpDayEntry(i){
+  state.expBreakdown[expDayCurrentKey].splice(i,1);
+  save();renderExpDayList();
+}
+function renderExpDayList(){
+  const entries=state.expBreakdown[expDayCurrentKey]||[];
+  const list=document.getElementById('exp-day-list');
+  list.innerHTML='';
+  if(!entries.length){
+    list.innerHTML='<p style="color:var(--text-muted);font-size:.85rem;margin-bottom:10px;text-align:center">No entries yet — add your first expense above.</p>';
+  } else {
+    entries.forEach((e,i)=>{
+      const row=document.createElement('div');row.className='breakdown-item';
+      row.innerHTML=`<span class="b-source">${e.category}</span>
+        <span class="b-amount" style="color:var(--gold)">${Number(e.amount).toLocaleString()}</span>
+        <button class="b-del" onclick="removeExpDayEntry(${i})">🗑</button>`;
+      list.appendChild(row);
+    });
+  }
+  const total=entries.reduce((s,e)=>s+Number(e.amount),0);
+  document.getElementById('exp-day-total').textContent=total.toLocaleString();
+}
+function refreshExpSummaries(){
+  const mk=getExpenseMonthKey();
+  const limit=parseFloat(document.getElementById('expense-limit').value)||1000;
+  const savingsDeposit=parseFloat(document.getElementById('savings-deposit').value)||0;
+  const period=getExpensePeriod();
+  const nowCeil=new Date();nowCeil.setHours(23,59,59,999);
+  const totalIncome=(state.income[mk]||[]).reduce((s,e)=>s+Number(e.amount),0);
+  const totalExp=period.reduce((s,p)=>{
+    if(p.dateObj>nowCeil)return s;
+    const entries=state.expBreakdown[p.key]||[];
+    return s+entries.reduce((a,e)=>a+Number(e.amount),0);
+  },0);
+  const remaining=totalIncome-savingsDeposit-totalExp;
+  document.getElementById('sum-expenses').textContent=totalExp.toLocaleString();
+  const remEl=document.getElementById('sum-remaining');
+  remEl.textContent=(remaining<0?'-':'')+Math.abs(remaining).toLocaleString();
+  remEl.style.color=remaining<0?'var(--red)':'var(--teal-light)';
+  const nowCeil2=new Date();nowCeil2.setHours(23,59,59,999);
+  drawExpChart(period,limit,nowCeil2);
+}
+
+function drawExpChart(period,limit,nowCeil){
+  const canvas=document.getElementById('expense-chart');if(!canvas)return;
+  const labels=period.map(p=>p.label);
+  const data=period.map(p=>{
+    if(p.dateObj>nowCeil)return null;
+    const entries=state.expBreakdown[p.key]||[];
+    return entries.length?entries.reduce((s,e)=>s+Number(e.amount),0):null;
+  });
+  const ptc=data.map(v=>v===null?'rgba(0,201,200,.2)':v>limit?'rgba(231,76,60,.9)':'rgba(46,204,113,.9)');
+  if(expChartInst)expChartInst.destroy();
+  expChartInst=new Chart(canvas,{type:'line',
+    data:{labels,datasets:[
+      {label:'Daily Expense',data,borderColor:'rgba(0,201,200,.7)',backgroundColor:'rgba(0,201,200,.06)',
+        tension:.3,fill:true,pointBackgroundColor:ptc,pointRadius:5,spanGaps:false},
+      {label:'Budget Limit',data:period.map(()=>limit),borderColor:'rgba(240,192,64,.55)',
+        borderDash:[6,4],pointRadius:0,fill:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#7db2d4',font:{size:11,family:'Nunito'}}},
+        tooltip:{callbacks:{label:ctx=>{
+          if(ctx.datasetIndex===1)return`Budget: ${ctx.raw}`;
+          if(ctx.raw===null)return'No entry';
+          return`${ctx.raw>limit?'🔴 Over':'🟢 Under'} budget: ${ctx.raw}`;
+        }}}},
+      scales:{
+        x:{ticks:{color:'#7db2d4',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},
+        y:{ticks:{color:'#7db2d4',font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}}
+      }}
+  });
+}
+
+// ══════════════════════════════════════════════════
+//  PWA
+// ══════════════════════════════════════════════════
+if('serviceWorker'in navigator)
+  window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredPrompt=e;
+  const b=document.getElementById('install-banner');if(b)b.style.display='flex';
+});
+window.addEventListener('appinstalled',()=>{
+  const b=document.getElementById('install-banner');if(b)b.style.display='none';
+});
+function triggerInstall(){
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;});}
+}
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+window.onload=()=>{
+  load();
+  const now=new Date();
+  document.getElementById('expense-month-sel').value=now.getMonth();
+  document.getElementById('expense-year-inp').value=now.getFullYear();
+  if(state.monthStartDay)document.getElementById('month-start-day').value=state.monthStartDay;
+  // Home is always shown on load — calendar modal only pops when entering Salah
+};
+</script>
+</body>
+</html>
