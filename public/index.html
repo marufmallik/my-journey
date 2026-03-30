@@ -721,15 +721,15 @@ canvas.expense-chart{width:100%!important;height:220px!important;}
     <div class="card-title">⚙️ Settings</div>
     <div class="expense-settings-row">
       <label>Daily budget limit:</label>
-      <input type="number" id="expense-limit" class="ctrl-num gold" value="1000" min="0" onchange="renderExpense()"/>
+      <input type="number" id="expense-limit" class="ctrl-num gold" value="1000" min="0" onchange="state.expenseLimit=parseFloat(this.value)||1000;save();renderExpense()"/>
       <label>Monthly savings deposit:</label>
       <input type="number" id="savings-deposit" class="ctrl-num" value="0" min="0" step="0.01"
-        style="color:var(--cyan)" onchange="renderExpense()"/>
+        style="color:var(--cyan-soft)" onchange="state.savingsDeposit=parseFloat(this.value)||0;save();renderExpense()"/>
     </div>
     <div class="expense-settings-row">
       <label>Month start date (1–28):</label>
       <input type="number" id="month-start-day" class="ctrl-input" value="1" min="1" max="28"
-        style="width:70px" onchange="renderExpense()"/>
+        style="width:70px" onchange="state.monthStartDay=parseInt(this.value)||1;save();renderExpense()"/>
       <label>Month:</label>
       <select id="expense-month-sel" class="ctrl-select" onchange="renderExpense()">
         <option value="0">January</option><option value="1">February</option><option value="2">March</option>
@@ -889,6 +889,8 @@ const state={
   expBreakdown:{},  // key: YYYY-MM-DD → [{category, amount}]
   rollover:{},      // key: monthKey → {action:'savings'|'income'|null, amount}
   monthStartDay:1,
+  expenseLimit:1000,
+  savingsDeposit:0,
 };
 
 function save(){try{localStorage.setItem('journey_v4',JSON.stringify(state));}catch(e){}}
@@ -908,6 +910,8 @@ function load(){
     Object.assign(state.savings,p.savings||{});
     Object.assign(state.rollover,p.rollover||{});
     state.monthStartDay=p.monthStartDay||1;
+    state.expenseLimit=p.expenseLimit||1000;
+    state.savingsDeposit=p.savingsDeposit||0;
   }catch(e){}
 }
 
@@ -1843,6 +1847,8 @@ window.onload=()=>{
   document.getElementById('expense-month-sel').value=now.getMonth();
   document.getElementById('expense-year-inp').value=now.getFullYear();
   if(state.monthStartDay)document.getElementById('month-start-day').value=state.monthStartDay;
+  if(state.expenseLimit)document.getElementById('expense-limit').value=state.expenseLimit;
+  if(state.savingsDeposit!==undefined)document.getElementById('savings-deposit').value=state.savingsDeposit;
   // Home is always shown on load — calendar modal only pops when entering Salah
 };
 </script>
