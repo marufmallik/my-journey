@@ -128,9 +128,11 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-
 .tracker-table{border-collapse:collapse;min-width:100%;font-size:.8rem;}
 .tracker-table th{background:var(--bg2);color:var(--cyan);padding:8px 4px;text-align:center;
   font-weight:600;border:1px solid var(--border);white-space:nowrap;font-size:.75rem;}
+.tracker-table th:first-child{position:sticky;left:0;z-index:3;background:var(--bg2);}
 .tracker-table td{border:1px solid var(--border);text-align:center;padding:4px;}
 .tracker-table td.row-label{background:var(--bg3);color:var(--teal-light);font-weight:700;font-size:.82rem;
-  padding:6px 12px;white-space:nowrap;min-width:90px;}
+  padding:6px 12px;white-space:nowrap;min-width:90px;
+  position:sticky;left:0;z-index:2;box-shadow:2px 0 6px rgba(0,0,0,.3);}
 .today-col{background:rgba(43,191,191,.06)!important;}
 .today-col-header{background:rgba(43,191,191,.15)!important;color:#5dd6d6!important;font-weight:800!important;}
 .today-col-header::after{content:'◀';font-size:.55rem;display:block;color:var(--cyan);}
@@ -151,6 +153,48 @@ canvas.expense-chart{width:100%!important;height:220px!important;}
 .habit-chart-block{background:rgba(14,26,54,.7);border-radius:10px;padding:14px 12px 10px;border:1px solid rgba(43,191,191,.14);margin-bottom:14px;}
 
 /* ═══ HABIT SECTION ═══ */
+.habit-table-controls{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.habit-add-row{display:flex;flex-direction:column;gap:8px;}
+.habit-add-group{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;}
+.habit-add-group input{flex:1;min-width:0;}
+.habit-add-divider{height:1px;background:rgba(43,191,191,.12);margin:2px 0;}
+.habit-cell{width:32px;height:32px;cursor:pointer;border-radius:4px;font-size:.9rem;
+  background:rgba(255,255,255,.03);transition:background .15s,transform .1s;
+  user-select:none;display:flex;align-items:center;justify-content:center;margin:auto;}
+.habit-cell:hover{background:rgba(43,191,191,.1);transform:scale(1.1);}
+.habit-cell[data-state="1"]{color:#5dd6d6;}
+.habit-cell[data-state="2"]{color:#c87a6a;}
+.habit-row-label-wrap{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.habit-row-del{background:transparent;border:none;color:rgba(180,70,60,.4);cursor:pointer;
+  font-size:.8rem;padding:2px 4px;border-radius:4px;transition:color .2s;line-height:1;}
+.habit-row-del:hover{color:#c87a6a;}
+.habit-type-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle;}
+.habit-type-dot.build{background:#5dd6d6;}
+.habit-type-dot.change{background:#c87a6a;}
+.habit-subnav{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+.habit-subnav-btn{
+  flex:1;min-width:120px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 16px;border-radius:12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(43,191,191,.18);
+  color:var(--text-muted);
+  cursor:pointer;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:600;
+  transition:all .25s;letter-spacing:.03em;}
+.habit-subnav-btn:hover{border-color:rgba(43,191,191,.4);color:var(--text);}
+.habit-subnav-btn.active{
+  background:rgba(43,191,191,.12);
+  border-color:rgba(43,191,191,.55);
+  color:#5dd6d6;
+  box-shadow:0 0 12px rgba(43,191,191,.12);}
+.hsnav-icon{font-size:1.1rem;}
+.habit-page-heading{
+  font-family:'Cinzel',serif;font-size:1.4rem;
+  color:var(--text-muted);
+  margin-bottom:20px;padding-bottom:10px;
+  border-bottom:1px solid rgba(43,191,191,.1);}
+.habit-page-heading.active-heading{color:#5dd6d6;}
+.habit-subpage{animation:fadeIn .3s ease;}
 .habit-date-nav{display:flex;align-items:center;justify-content:center;gap:16px;
   background:rgba(16,30,60,.5);border:1px solid rgba(43,191,191,.18);border-radius:12px;padding:14px 20px;margin-bottom:20px;}
 .date-nav-btn{background:rgba(43,191,191,.08);border:1px solid rgba(43,191,191,.25);color:#5dd6d6;
@@ -217,8 +261,10 @@ canvas.expense-chart{width:100%!important;height:220px!important;}
 .exp-summary-sub{font-size:.78rem;color:var(--text-muted);}
 .exp-summary-card.clickable-hint::after{content:'▼ tap for breakdown';font-size:.7rem;color:var(--text-muted);margin-top:4px;}
 
-.expense-settings-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
+.expense-settings-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:16px;align-items:center;}
 .expense-settings-row label{color:var(--text-muted);font-size:.9rem;}
+.exp-setting-pair{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;}
+.exp-setting-pair label{white-space:nowrap;color:var(--text-muted);font-size:.88rem;min-width:0;}
 .ctrl-num{background:var(--bg2);border:1px solid var(--border);color:var(--text);
   padding:7px 12px;border-radius:8px;font-family:'Nunito',sans-serif;font-size:.95rem;outline:none;width:110px;}
 .ctrl-num:focus{border-color:var(--cyan);}
@@ -469,6 +515,21 @@ canvas.expense-chart{width:100%!important;height:220px!important;}
   <button onclick="document.getElementById('install-banner').style.display='none'" style="background:transparent;border:none;color:#7db2d4;cursor:pointer;font-size:1.1rem">✕</button>
 </div>
 
+<!-- ══ UPDATE BANNER ══ -->
+<div id="update-banner" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:998;background:linear-gradient(135deg,#162a50,#0d5c60);border:1px solid rgba(93,214,214,.5);
+  border-radius:50px;padding:10px 20px;align-items:center;gap:14px;
+  box-shadow:0 4px 24px rgba(0,0,0,.5);font-family:'Nunito',sans-serif;white-space:nowrap;
+  animation:fadeIn .4s ease">
+  <span style="color:#cce4f5;font-size:.9rem">🆕 Update available</span>
+  <button onclick="applyUpdate()" style="background:linear-gradient(135deg,#0d7377,#5dd6d6);border:none;
+    color:#0c1c36;padding:7px 18px;border-radius:50px;font-weight:700;cursor:pointer;font-size:.85rem">
+    Update Now
+  </button>
+  <button onclick="document.getElementById('update-banner').style.display='none'" style="background:transparent;
+    border:none;color:#7aadc8;cursor:pointer;font-size:1.1rem;padding:0 4px">✕</button>
+</div>
+
 <!-- ══ NAV ══ -->
 <div id="nav-bar" style="display:none">
   <button class="nav-btn" onclick="goTo('home')">🏠 <span class="label">Home</span></button>
@@ -607,7 +668,7 @@ canvas.expense-chart{width:100%!important;height:220px!important;}
     </div>
   </div>
 
-  <div class="card overflow">
+  <div class="card" style="overflow-x:auto;padding-bottom:8px">
     <div id="english-month-row" class="month-selector" style="display:none">
       <label>Month:</label>
       <select id="eng-month-sel" class="ctrl-select" onchange="renderSalahTable()">
@@ -662,51 +723,140 @@ canvas.expense-chart{width:100%!important;height:220px!important;}
      HABIT SECTION
 ══════════════════════════════════════ -->
 <div class="section" id="habit">
+
+  <!-- ── Shared header: title + sub-nav always visible ── -->
   <div class="section-title">🌱 Habit Tracker</div>
 
-  <!-- Date navigator -->
-  <div class="habit-date-nav">
-    <button class="date-nav-btn" id="habit-prev-btn" onclick="habitNavDay(-1)">‹</button>
-    <div style="text-align:center">
-      <div class="date-nav-label" id="habit-date-label">—</div>
-      <span class="date-nav-sub" id="habit-date-sub"></span>
-    </div>
-    <button class="date-nav-btn" id="habit-next-btn" onclick="habitNavDay(1)">›</button>
+  <!-- Sub-page navigation tabs -->
+  <div class="habit-subnav" id="habit-subnav">
+    <button class="habit-subnav-btn" id="hsnav-monthly" onclick="switchHabitPage('monthly')">
+      <span class="hsnav-icon">📅</span>
+      <span class="hsnav-label">Monthly Goal</span>
+    </button>
+    <button class="habit-subnav-btn" id="hsnav-weekly" onclick="switchHabitPage('weekly')">
+      <span class="hsnav-icon">🗓</span>
+      <span class="hsnav-label">Weekly Goal</span>
+    </button>
+    <button class="habit-subnav-btn" id="hsnav-daily" onclick="switchHabitPage('daily')">
+      <span class="hsnav-icon">☀️</span>
+      <span class="hsnav-label">Daily Goal</span>
+    </button>
   </div>
 
-  <div class="card">
-    <div class="card-title"><span class="habit-type-title build">✅ Habits to Build</span></div>
-    <div class="habit-input-row">
-      <input type="text" id="build-name-inp" placeholder="Enter habit name…" onkeydown="if(event.key==='Enter')addHabit('build')"/>
-      <button class="btn-add" onclick="addHabit('build')">+ Add</button>
+  <!-- ══ DAILY SUB-PAGE ══ -->
+  <div id="habit-page-daily" class="habit-subpage">
+    <div class="habit-page-heading active-heading">☀️ Daily Goal</div>
+    <div class="card overflow">
+      <div class="habit-table-controls">
+        <div class="month-selector" style="margin-bottom:0">
+          <label>Month:</label>
+          <select id="habit-daily-month" class="ctrl-select" onchange="renderHabitTable('daily')">
+            <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+            <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+            <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+            <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+          </select>
+          <label>Year:</label>
+          <input type="number" id="habit-daily-year" class="ctrl-input" style="width:90px" onchange="renderHabitTable('daily')"/>
+        </div>
+        <div class="habit-add-row">
+          <div class="habit-add-group">
+            <span class="habit-type-title build" style="margin-bottom:0;white-space:nowrap">✅ Build</span>
+            <input type="text" id="build-name-inp" class="ctrl-input" placeholder="Habit name…" onkeydown="if(event.key==='Enter')addHabit('build')"/>
+            <button class="btn-add" onclick="addHabit('build')" style="white-space:nowrap">+ Add</button>
+          </div>
+          <div class="habit-add-divider"></div>
+          <div class="habit-add-group">
+            <span class="habit-type-title change" style="margin-bottom:0;white-space:nowrap">🔄 Change</span>
+            <input type="text" id="change-name-inp" class="ctrl-input" placeholder="Habit name…" onkeydown="if(event.key==='Enter')addHabit('change')"/>
+            <button class="btn-add" onclick="addHabit('change')" style="white-space:nowrap">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div id="habit-table-daily"></div>
     </div>
-    <div class="habit-record-list" id="build-list"></div>
+    <div class="legend" style="padding:0 4px">
+      <span>◆ Done</span><span>○ Skip</span><span style="color:var(--text-muted)">(click to cycle · 3rd click = clear)</span>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Monthly Overview</div>
+      <div class="chart-wrap"><canvas id="habit-chart-daily" class="salah-chart"></canvas></div>
+    </div>
   </div>
 
-  <div class="card">
-    <div class="card-title"><span class="habit-type-title change">🔄 Habits to Change / Break</span></div>
-    <div class="habit-input-row">
-      <input type="text" id="change-name-inp" placeholder="Enter habit name…" onkeydown="if(event.key==='Enter')addHabit('change')"/>
-      <button class="btn-add" onclick="addHabit('change')">+ Add</button>
+  <!-- ══ WEEKLY SUB-PAGE ══ -->
+  <div id="habit-page-weekly" class="habit-subpage" style="display:none">
+    <div class="habit-page-heading active-heading">🗓 Weekly Goal</div>
+    <div class="card overflow">
+      <div class="habit-table-controls">
+        <div class="month-selector" style="margin-bottom:0">
+          <label>Month:</label>
+          <select id="habit-weekly-month" class="ctrl-select" onchange="renderHabitTable('weekly')">
+            <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+            <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+            <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+            <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+          </select>
+          <label>Year:</label>
+          <input type="number" id="habit-weekly-year" class="ctrl-input" style="width:90px" onchange="renderHabitTable('weekly')"/>
+        </div>
+        <div class="habit-add-row">
+          <div class="habit-add-group">
+            <span class="habit-type-title build" style="margin-bottom:0;white-space:nowrap">✅ Build</span>
+            <input type="text" id="build-name-inp-w" class="ctrl-input" placeholder="Weekly goal…" onkeydown="if(event.key==='Enter')addHabitGoal('weekly','build')"/>
+            <button class="btn-add" onclick="addHabitGoal('weekly','build')" style="white-space:nowrap">+ Add</button>
+          </div>
+          <div class="habit-add-divider"></div>
+          <div class="habit-add-group">
+            <span class="habit-type-title change" style="margin-bottom:0;white-space:nowrap">🔄 Change</span>
+            <input type="text" id="change-name-inp-w" class="ctrl-input" placeholder="Weekly goal…" onkeydown="if(event.key==='Enter')addHabitGoal('weekly','change')"/>
+            <button class="btn-add" onclick="addHabitGoal('weekly','change')" style="white-space:nowrap">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div id="habit-table-weekly"></div>
     </div>
-    <div class="habit-record-list" id="change-list"></div>
+    <div class="legend" style="padding:0 4px">
+      <span>◆ Done</span><span>○ Skip</span><span style="color:var(--text-muted)">(click to cycle)</span>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Weekly Overview</div>
+      <div class="chart-wrap"><canvas id="habit-chart-weekly" class="salah-chart"></canvas></div>
+    </div>
   </div>
 
-  <!-- Combined graph -->
-  <div class="card">
-    <div class="card-title">📈 Monthly Habit Progress</div>
-    <div class="month-selector">
-      <label>Month:</label>
-      <select id="habit-graph-month" class="ctrl-select" onchange="renderHabitChart()">
-        <option value="0">January</option><option value="1">February</option><option value="2">March</option>
-        <option value="3">April</option><option value="4">May</option><option value="5">June</option>
-        <option value="6">July</option><option value="7">August</option><option value="8">September</option>
-        <option value="9">October</option><option value="10">November</option><option value="11">December</option>
-      </select>
-      <label>Year:</label>
-      <input type="number" id="habit-graph-year" class="ctrl-input" style="width:90px" onchange="renderHabitChart()"/>
+  <!-- ══ MONTHLY SUB-PAGE ══ -->
+  <div id="habit-page-monthly" class="habit-subpage" style="display:none">
+    <div class="habit-page-heading active-heading">📅 Monthly Goal</div>
+    <div class="card overflow">
+      <div class="habit-table-controls">
+        <div class="month-selector" style="margin-bottom:0">
+          <label>Year:</label>
+          <input type="number" id="habit-monthly-year" class="ctrl-input" style="width:90px" onchange="renderHabitTable('monthly')"/>
+        </div>
+        <div class="habit-add-row">
+          <div class="habit-add-group">
+            <span class="habit-type-title build" style="margin-bottom:0;white-space:nowrap">✅ Build</span>
+            <input type="text" id="build-name-inp-m" class="ctrl-input" placeholder="Monthly goal…" onkeydown="if(event.key==='Enter')addHabitGoal('monthly','build')"/>
+            <button class="btn-add" onclick="addHabitGoal('monthly','build')" style="white-space:nowrap">+ Add</button>
+          </div>
+          <div class="habit-add-divider"></div>
+          <div class="habit-add-group">
+            <span class="habit-type-title change" style="margin-bottom:0;white-space:nowrap">🔄 Change</span>
+            <input type="text" id="change-name-inp-m" class="ctrl-input" placeholder="Monthly goal…" onkeydown="if(event.key==='Enter')addHabitGoal('monthly','change')"/>
+            <button class="btn-add" onclick="addHabitGoal('monthly','change')" style="white-space:nowrap">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div id="habit-table-monthly"></div>
     </div>
-    <div id="habit-charts-container"></div>
+    <div class="legend" style="padding:0 4px">
+      <span>◆ Done</span><span>○ Skip</span><span style="color:var(--text-muted)">(click to cycle)</span>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Yearly Overview</div>
+      <div class="chart-wrap"><canvas id="habit-chart-monthly" class="salah-chart"></canvas></div>
+    </div>
   </div>
 </div>
 
@@ -720,25 +870,35 @@ canvas.expense-chart{width:100%!important;height:220px!important;}
   <div class="card">
     <div class="card-title">⚙️ Settings</div>
     <div class="expense-settings-row">
-      <label>Daily budget limit:</label>
-      <input type="number" id="expense-limit" class="ctrl-num gold" value="1000" min="0" onchange="state.expenseLimit=parseFloat(this.value)||1000;save();renderExpense()"/>
-      <label>Monthly savings deposit:</label>
-      <input type="number" id="savings-deposit" class="ctrl-num" value="0" min="0" step="0.01"
-        style="color:var(--cyan-soft)" onchange="state.savingsDeposit=parseFloat(this.value)||0;save();renderExpense()"/>
+      <div class="exp-setting-pair">
+        <label>Daily budget limit:</label>
+        <input type="number" id="expense-limit" class="ctrl-num gold" value="1000" min="0" onchange="state.expenseLimit=parseFloat(this.value)||1000;save();renderExpense()"/>
+      </div>
+      <div class="exp-setting-pair">
+        <label>Monthly savings:</label>
+        <input type="number" id="savings-deposit" class="ctrl-num" value="0" min="0" step="0.01"
+          style="color:var(--cyan-soft)" onchange="state.savingsDeposit=parseFloat(this.value)||0;save();renderExpense()"/>
+      </div>
+      <div class="exp-setting-pair">
+        <label>Month starts on day:</label>
+        <input type="number" id="month-start-day" class="ctrl-input" value="1" min="1" max="28"
+          style="width:70px" onchange="state.monthStartDay=parseInt(this.value)||1;save();renderExpense()"/>
+      </div>
     </div>
     <div class="expense-settings-row">
-      <label>Month start date (1–28):</label>
-      <input type="number" id="month-start-day" class="ctrl-input" value="1" min="1" max="28"
-        style="width:70px" onchange="state.monthStartDay=parseInt(this.value)||1;save();renderExpense()"/>
-      <label>Month:</label>
-      <select id="expense-month-sel" class="ctrl-select" onchange="renderExpense()">
+      <div class="exp-setting-pair">
+        <label>Month:</label>
+        <select id="expense-month-sel" class="ctrl-select" onchange="renderExpense()">
         <option value="0">January</option><option value="1">February</option><option value="2">March</option>
         <option value="3">April</option><option value="4">May</option><option value="5">June</option>
         <option value="6">July</option><option value="7">August</option><option value="8">September</option>
         <option value="9">October</option><option value="10">November</option><option value="11">December</option>
       </select>
-      <label>Year:</label>
-      <input type="number" id="expense-year-inp" class="ctrl-input" style="width:90px" onchange="renderExpense()"/>
+      </div>
+      <div class="exp-setting-pair">
+        <label>Year:</label>
+        <input type="number" id="expense-year-inp" class="ctrl-input" style="width:90px" onchange="renderExpense()"/>
+      </div>
     </div>
   </div>
 
@@ -881,7 +1041,9 @@ const state={
   hijriAnchorGreg:null,   // {y,m,d} — user-confirmed Gregorian anchor date
   hijriAnchorHijri:null,  // {year,month,day} — corresponding Hijri date
   salah:{},quran:{},
-  habits:{build:[],change:[]},
+  habits:{build:[],change:[]},      // daily habits
+  habitsWeekly:{build:[],change:[]}, // weekly goals
+  habitsMonthly:{build:[],change:[]},// monthly goals
   habitChecks:{},   // key: type_id_YYYY-MM-DD → 'yes'|'no'|null
   expenses:{},      // key: YYYY-MM-DD → number
   income:{},        // key: monthKey → [{source,amount}]
@@ -903,6 +1065,8 @@ function load(){
     state.hijriAnchorHijri=p.hijriAnchorHijri||null;
     Object.assign(state.salah,p.salah||{});Object.assign(state.quran,p.quran||{});
     state.habits.build=p.habits?.build||[];state.habits.change=p.habits?.change||[];
+    state.habitsWeekly={build:p.habitsWeekly?.build||[],change:p.habitsWeekly?.change||[]};
+    state.habitsMonthly={build:p.habitsMonthly?.build||[],change:p.habitsMonthly?.change||[]};
     Object.assign(state.habitChecks,p.habitChecks||{});
     Object.assign(state.expenses,p.expenses||{});
     Object.assign(state.expBreakdown,p.expBreakdown||{});
@@ -1192,7 +1356,7 @@ function goTo(section){
 //  SALAH — 5 STATES
 //  0=empty 1=✅jamah 2=🟩alone 3=🟡late 4=❌missed → 0
 // ══════════════════════════════════════════════════
-const WAKTS=['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+const WAKTS=['Fajr','Duhr','Asr','Maghrib','Isha'];
 // Using text/emoji combos that are widely supported
 const S_ICONS=['','✅','🟩','🟡','❌'];
 const S_TIPS =['','Jamah (on time)','Alone (on time)','Late / Qadha','Missed'];
@@ -1336,219 +1500,442 @@ function habitDateKey(d){
   return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-function renderHabitSection(){
-  if(!habitCurrentDate)habitCurrentDate=new Date();
-  habitCurrentDate.setHours(0,0,0,0);
-  const now=new Date();now.setHours(0,0,0,0);
-  // Init graph month/year to current
-  document.getElementById('habit-graph-month').value=now.getMonth();
-  document.getElementById('habit-graph-year').value=now.getFullYear();
-  renderHabitDay();
-  renderHabitChart();
-}
+let currentHabitPage='daily';
+let habitChartInstDaily=null, habitChartInstWeekly=null, habitChartInstMonthly=null;
 
-function habitNavDay(dir){
-  const now=new Date();now.setHours(0,0,0,0);
-  const next=new Date(habitCurrentDate);
-  next.setDate(next.getDate()+dir);
-  if(dir>0&&next>now)return; // cannot go to future
-  habitCurrentDate=next;
-  renderHabitDay();
-}
+// ── State keys ──
+// daily:   'build'|'change' + '_' + habitId + '_' + 'YYYY-MM-DD'  → '1'(done)|'2'(skip)
+// weekly:  'weekly_build'|... + '_' + habitId + '_' + 'YYYY-WNN'  → '1'|'2'
+// monthly: 'monthly_build'|... + '_' + habitId + '_' + 'YYYY-MM'  → '1'|'2'
 
-function renderHabitDay(){
-  const now=new Date();now.setHours(0,0,0,0);
-  const d=habitCurrentDate;
-  const isToday=d.getTime()===now.getTime();
-  const dateStr=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('habit-date-label').textContent=dateStr;
-  document.getElementById('habit-date-sub').textContent=isToday?'📍 Today':'';
-  document.getElementById('habit-next-btn').disabled=(d.getTime()>=now.getTime());
-
-  renderHabitList('build');
-  renderHabitList('change');
-}
-
-function renderHabitList(type){
-  const list=document.getElementById(`${type}-list`);
-  list.innerHTML='';
-  for(const habit of state.habits[type]){
-    const dk=habitDateKey(habitCurrentDate);
-    const checkKey=`${type}_${habit.id}_${dk}`;
-    const val=state.habitChecks[checkKey]||null; // 'yes'|'no'|null
-    const row=document.createElement('div');row.className='habit-record-row';
-    const labelClass=type==='build'?'build-label':'change-label';
-    row.innerHTML=`
-      <span class="habit-record-name ${labelClass}">${habit.name}</span>
-      <div class="habit-toggle-group">
-        <button class="habit-toggle-btn ${val==='yes'?'yes-active':''}" 
-          onclick="setHabitCheck('${type}','${habit.id}','yes')">
-          <span style="font-size:.8rem">◆</span> Done
-        </button>
-        <button class="habit-toggle-btn ${val==='no'?'no-active':''}"
-          onclick="setHabitCheck('${type}','${habit.id}','no')">
-          <span style="font-size:.8rem">◇</span> Skip
-        </button>
-      </div>
-      <button class="btn-remove-sm" onclick="removeHabit('${type}','${habit.id}')">Remove</button>`;
-    list.appendChild(row);
+function switchHabitPage(page){
+  currentHabitPage=page;
+  ['daily','weekly','monthly'].forEach(p=>{
+    const el=document.getElementById('habit-page-'+p);
+    if(el) el.style.display=(p===page)?'block':'none';
+    const btn=document.getElementById('hsnav-'+p);
+    if(btn) btn.classList.toggle('active',p===page);
+  });
+  const now=new Date();
+  if(page==='daily'){
+    const ms=document.getElementById('habit-daily-month');
+    const ys=document.getElementById('habit-daily-year');
+    if(!ys.value){ms.value=now.getMonth();ys.value=now.getFullYear();}
+    renderHabitTable('daily');
+  } else if(page==='weekly'){
+    const ms=document.getElementById('habit-weekly-month');
+    const ys=document.getElementById('habit-weekly-year');
+    if(!ys.value){ms.value=now.getMonth();ys.value=now.getFullYear();}
+    renderHabitTable('weekly');
+  } else {
+    const ys=document.getElementById('habit-monthly-year');
+    if(!ys.value) ys.value=now.getFullYear();
+    renderHabitTable('monthly');
   }
 }
 
-function setHabitCheck(type,id,val){
-  const dk=habitDateKey(habitCurrentDate);
-  const key=`${type}_${id}_${dk}`;
-  // Toggle: clicking same again clears it
-  state.habitChecks[key]=(state.habitChecks[key]===val)?null:val;
-  save();
-  renderHabitList(type);
-  renderHabitChart();
+function renderHabitSection(){
+  const now=new Date();
+  document.getElementById('habit-daily-month').value=now.getMonth();
+  document.getElementById('habit-daily-year').value=now.getFullYear();
+  document.getElementById('habit-weekly-month').value=now.getMonth();
+  document.getElementById('habit-weekly-year').value=now.getFullYear();
+  document.getElementById('habit-monthly-year').value=now.getFullYear();
+  switchHabitPage(currentHabitPage||'daily');
 }
 
-function addHabit(type){
-  const inp=document.getElementById(`${type}-name-inp`),name=inp.value.trim();
-  if(!name)return;
-  state.habits[type].push({id:Date.now().toString(),name});
-  inp.value='';save();renderHabitDay();renderHabitChart();
-}
-function removeHabit(type,id){
-  state.habits[type]=state.habits[type].filter(h=>h.id!==id);save();renderHabitDay();renderHabitChart();
-}
-
-function renderHabitChart(){
-  const month=parseInt(document.getElementById('habit-graph-month')?.value??new Date().getMonth());
-  const year=parseInt(document.getElementById('habit-graph-year')?.value??new Date().getFullYear());
-  const days=new Date(year,month+1,0).getDate();
-  const dayLabels=Array.from({length:days},(_,i)=>i+1);
+// ── RENDER TABLE ──
+function renderHabitTable(scope){
   const now=new Date();now.setHours(0,0,0,0);
+  let cols=[], colKey, habitsObj;
 
-  const container=document.getElementById('habit-charts-container');
-  if(!container)return;
+  if(scope==='daily'){
+    const month=parseInt(document.getElementById('habit-daily-month').value);
+    const year=parseInt(document.getElementById('habit-daily-year').value)||now.getFullYear();
+    const days=new Date(year,month+1,0).getDate();
+    const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    cols=Array.from({length:days},(_,i)=>{
+      const d=i+1;
+      const date=new Date(year,month,d);date.setHours(0,0,0,0);
+      const isToday=date.getTime()===now.getTime();
+      const key=year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      return {label:String(d),key,isToday,isFuture:date>now};
+    });
+    colKey=(habitId,type,col)=>type+'_'+habitId+'_'+col.key;
+    habitsObj={build:state.habits.build,change:state.habits.change};
 
-  // Destroy existing chart instances
-  Object.keys(habitChartInstances).forEach(k=>{
-    try{habitChartInstances[k].destroy();}catch(e){}
-    delete habitChartInstances[k];
-  });
-  container.innerHTML='';
+  } else if(scope==='weekly'){
+    const month=parseInt(document.getElementById('habit-weekly-month').value);
+    const year=parseInt(document.getElementById('habit-weekly-year').value)||now.getFullYear();
+    const daysInMonth=new Date(year,month+1,0).getDate();
+    let wStart=1,wNum=0;
+    while(wStart<=daysInMonth){
+      wNum++;
+      const wEnd=Math.min(wStart+6,daysInMonth);
+      const wStartDate=new Date(year,month,wStart);wStartDate.setHours(0,0,0,0);
+      const key='weekly_'+year+'-'+String(month+1).padStart(2,'0')+'-W'+String(wNum).padStart(2,'0');
+      cols.push({label:'Wk '+wNum,sublabel:wStart+'–'+wEnd,key,isToday:false,isFuture:wStartDate>now});
+      wStart+=7;
+    }
+    colKey=(habitId,type,col)=>'weekly_'+type+'_'+habitId+'_'+col.key;
+    habitsObj={build:state.habitsWeekly.build,change:state.habitsWeekly.change};
+
+  } else { // monthly
+    const year=parseInt(document.getElementById('habit-monthly-year').value)||now.getFullYear();
+    const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    cols=MN.map((name,mi)=>{
+      const mStart=new Date(year,mi,1);mStart.setHours(0,0,0,0);
+      const key='monthly_'+year+'-'+String(mi+1).padStart(2,'0');
+      return {label:name,key,isToday:now.getFullYear()===year&&now.getMonth()===mi,isFuture:mStart>now};
+    });
+    colKey=(habitId,type,col)=>'monthly_'+type+'_'+habitId+'_'+col.key;
+    habitsObj={build:state.habitsMonthly.build,change:state.habitsMonthly.change};
+  }
+
+  const tableWrapId='habit-table-'+scope;
+  const wrap=document.getElementById(tableWrapId);
+  if(!wrap) return;
 
   const allHabits=[
-    ...state.habits.build.map((h,i)=>({...h,type:'build',colorIdx:i})),
-    ...state.habits.change.map((h,i)=>({...h,type:'change',colorIdx:i}))
+    ...(habitsObj.build||[]).map(h=>({...h,htype:'build'})),
+    ...(habitsObj.change||[]).map(h=>({...h,htype:'change'}))
   ];
 
   if(!allHabits.length){
-    container.innerHTML='<p style="color:var(--text-muted);font-size:.88rem;text-align:center;padding:24px">Add habits above to see graphs.</p>';
+    wrap.innerHTML='<p style="color:var(--text-muted);font-size:.88rem;padding:16px 4px">No habits added yet. Use the fields above to add your first habit.</p>';
+    renderHabitGraph(scope,habitsObj,cols,colKey);
     return;
   }
 
-  allHabits.forEach(function(habit){
-    const isBuild=habit.type==='build';
-    const colors=isBuild?HABIT_COLORS_BUILD:HABIT_COLORS_CHANGE;
-    const color=colors[habit.colorIdx%colors.length];
-    const typeTag=isBuild
-      ?'<span style="background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.3);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;margin-left:6px">BUILD</span>'
-      :'<span style="background:rgba(231,76,60,.15);color:#e74c3c;border:1px solid rgba(231,76,60,.3);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;margin-left:6px">CHANGE</span>';
+  // Build table HTML
+  let html='<div style="overflow-x:auto"><table class="tracker-table"><thead><tr>';
+  html+='<th style="min-width:130px;text-align:left;padding-left:8px">Habit</th>';
+  cols.forEach(col=>{
+    const cls=col.isToday?'today-col-header':'';
+    html+=`<th class="${cls}" style="min-width:34px">${col.label}${col.sublabel?'<br><small style="font-size:.6rem;color:var(--text-muted)">'+col.sublabel+'</small>':''}</th>`;
+  });
+  html+='</tr></thead><tbody>';
 
-    // Data: 1=done, 0=not done, null=not recorded
-    var data=dayLabels.map(function(d){
-      var date=new Date(year,month,d);date.setHours(0,0,0,0);
-      if(date>now)return null;
-      var key=habit.type+'_'+habit.id+'_'+year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-      var v=state.habitChecks[key];
-      return v==='yes'?1:v==='no'?0:null;
+  allHabits.forEach(habit=>{
+    const isBuild=habit.htype==='build';
+    const dotClass=isBuild?'build':'change';
+    html+=`<tr><td class="row-label" style="min-width:130px">
+      <div class="habit-row-label-wrap">
+        <span><span class="habit-type-dot ${dotClass}"></span>${habit.name}</span>
+        <button class="habit-row-del" onclick="removeHabitFromTable('${scope}','${habit.htype}','${habit.id}')" title="Remove">✕</button>
+      </div></td>`;
+    cols.forEach(col=>{
+      const k=colKey(habit.id,habit.htype,col);
+      const st=state.habitChecks[k]||0;
+      const icon=st===1?'◆':st===2?'○':'';
+      const cls2=col.isToday?'today-col':'';
+      html+=`<td class="${cls2}"><div class="habit-cell" data-state="${st}" data-key="${k}" data-scope="${scope}" onclick="cycleHabitCell(this)">${icon}</div></td>`;
     });
+    html+='</tr>';
+  });
 
-    var ptBg=data.map(function(v){
-      if(v===null)return 'rgba(255,255,255,0.15)';
-      return v===1?color:'rgba(180,70,60,0.6)';
+  html+='</tbody></table></div>';
+  wrap.innerHTML=html;
+  renderHabitGraph(scope,habitsObj,cols,colKey);
+}
+
+function cycleHabitCell(el){
+  const k=el.dataset.key;
+  let st=parseInt(el.dataset.state)||0;
+  st=st>=2?0:st+1;
+  state.habitChecks[k]=st;
+  el.dataset.state=st;
+  el.textContent=st===1?'◆':st===2?'○':'';
+  save();
+  renderHabitGraph(el.dataset.scope,null,null,null);
+}
+
+// ── ADD / REMOVE ──
+function addHabit(type){
+  const inp=document.getElementById(type+'-name-inp');
+  const name=inp.value.trim();if(!name)return;
+  state.habits[type].push({id:Date.now().toString(),name});
+  inp.value='';save();renderHabitTable('daily');
+}
+function addHabitGoal(scope,type){
+  const suffix=scope==='weekly'?'-w':'-m';
+  const inp=document.getElementById(type+'-name-inp'+suffix);
+  const name=inp.value.trim();if(!name)return;
+  const habitsObj=scope==='weekly'?state.habitsWeekly:state.habitsMonthly;
+  habitsObj[type].push({id:Date.now().toString(),name});
+  inp.value='';save();renderHabitTable(scope);
+}
+function removeHabitFromTable(scope,type,id){
+  if(scope==='daily') state.habits[type]=state.habits[type].filter(h=>h.id!==id);
+  else if(scope==='weekly') state.habitsWeekly[type]=state.habitsWeekly[type].filter(h=>h.id!==id);
+  else state.habitsMonthly[type]=state.habitsMonthly[type].filter(h=>h.id!==id);
+  save();renderHabitTable(scope);
+}
+
+// ── GRAPH — salah-style stacked bar ──
+function renderHabitGraph(scope, habitsObj, cols, colKey){
+  // Re-derive if called from cycleHabitCell (args null)
+  const now=new Date();now.setHours(0,0,0,0);
+
+  if(scope==='daily'){
+    const month=parseInt(document.getElementById('habit-daily-month')?.value??now.getMonth());
+    const year=parseInt(document.getElementById('habit-daily-year')?.value??now.getFullYear());
+    const days=new Date(year,month+1,0).getDate();
+    const allHabits=[...(state.habits.build||[]).map(h=>({...h,htype:'build'})),...(state.habits.change||[]).map(h=>({...h,htype:'change'}))];
+    const labels=Array.from({length:days},(_,i)=>i+1);
+
+    // For each day: count done and skip across all habits
+    const doneData=labels.map(d=>{
+      const k=year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      return allHabits.filter(h=>state.habitChecks[h.htype+'_'+h.id+'_'+k]===1).length;
     });
-    var ptR=data.map(function(v){return v===null?2:5;});
+    const skipData=labels.map(d=>{
+      const k=year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      return allHabits.filter(h=>state.habitChecks[h.htype+'_'+h.id+'_'+k]===2).length;
+    });
+    const total=allHabits.length||1;
 
-    // Create wrapper block
-    var block=document.createElement('div');
-    block.className='habit-chart-block';
-    var cid='hc_'+habit.id;
-    // Use a wrapper div with explicit height for Chart.js
-    block.innerHTML=
-      '<div style="display:flex;align-items:center;margin-bottom:8px">'+
-        '<span style="font-size:.9rem;font-weight:700;color:'+color+'">'+habit.name+'</span>'+
-        typeTag+
-      '</div>'+
-      '<div style="position:relative;height:80px">'+
-        '<canvas id="'+cid+'"></canvas>'+
-      '</div>';
-    container.appendChild(block);
-
-    var canvas=document.getElementById(cid);
+    const canvas=document.getElementById('habit-chart-daily');
     if(!canvas)return;
+    if(habitChartInstDaily)habitChartInstDaily.destroy();
+    habitChartInstDaily=new Chart(canvas,{type:'bar',
+      data:{labels,datasets:[
+        {label:'◆ Done', data:doneData,backgroundColor:'rgba(93,214,214,.8)',borderRadius:3,stack:'h',maxBarThickness:28},
+        {label:'○ Skip', data:skipData,backgroundColor:'rgba(200,80,70,.7)', borderRadius:3,stack:'h',maxBarThickness:28},
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#7db2d4',font:{size:10,family:'Nunito'},boxWidth:12}},
+          tooltip:{callbacks:{title:ctx=>'Day '+ctx[0].label}}},
+        scales:{
+          x:{stacked:true,ticks:{color:'#7db2d4',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},
+          y:{stacked:true,max:total,ticks:{color:'#7db2d4',stepSize:1,font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}}
+        }}});
 
-    habitChartInstances[cid]=new Chart(canvas,{
-      type:'line',
-      data:{
-        labels:dayLabels,
-        datasets:[{
-          data:data,
-          borderColor:color,
-          backgroundColor:'rgba(0,0,0,0)',
-          pointBackgroundColor:ptBg,
-          pointRadius:ptR,
-          pointHoverRadius:7,
-          tension:0.3,
-          fill:true,
-          spanGaps:false,
-          borderWidth:2
-        }]
-      },
-      options:{
-        responsive:true,
-        maintainAspectRatio:false,
+  } else if(scope==='weekly'){
+    const month=parseInt(document.getElementById('habit-weekly-month')?.value??now.getMonth());
+    const year=parseInt(document.getElementById('habit-weekly-year')?.value??now.getFullYear());
+    const daysInMonth=new Date(year,month+1,0).getDate();
+    const allHabits=[...(state.habitsWeekly.build||[]).map(h=>({...h,htype:'build'})),...(state.habitsWeekly.change||[]).map(h=>({...h,htype:'change'}))];
+    const weeks=[];let wStart=1,wNum=0;
+    while(wStart<=daysInMonth){wNum++;weeks.push({num:wNum,key:'weekly_'+year+'-'+String(month+1).padStart(2,'0')+'-W'+String(wNum).padStart(2,'0')});wStart+=7;}
+    const labels=weeks.map(w=>'Wk '+w.num);
+    const doneData=weeks.map(w=>allHabits.filter(h=>state.habitChecks['weekly_'+h.htype+'_'+h.id+'_'+w.key]===1).length);
+    const skipData=weeks.map(w=>allHabits.filter(h=>state.habitChecks['weekly_'+h.htype+'_'+h.id+'_'+w.key]===2).length);
+    const total=allHabits.length||1;
+
+    // Weekly: one bar per habit. Y = week count. Done stacked from bottom, Skip on top.
+    const habitLabels2=allHabits.map(h=>(h.htype==='build'?'✅ ':'🔄 ')+h.name);
+    // Count done and skip weeks per habit
+    const wDoneCount=allHabits.map(h=>weeks.filter(w=>state.habitChecks['weekly_'+h.htype+'_'+h.id+'_'+w.key]===1).length);
+    const wSkipCount=allHabits.map(h=>weeks.filter(w=>state.habitChecks['weekly_'+h.htype+'_'+h.id+'_'+w.key]===2).length);
+    const wPct=allHabits.map((_,i)=>{
+      const done=wDoneCount[i], total=weeks.filter(w=>!w.isFuture).length;
+      return total>0?Math.round(done/total*100):null;
+    });
+
+    const canvas=document.getElementById('habit-chart-weekly');
+    if(!canvas)return;
+    if(habitChartInstWeekly)habitChartInstWeekly.destroy();
+    habitChartInstWeekly=new Chart(canvas,{type:'bar',
+      data:{labels:habitLabels2, datasets:[
+        {label:'◆ Done (weeks)', data:wDoneCount, backgroundColor:'rgba(93,214,214,.82)', borderRadius:3, stack:'w', maxBarThickness:28},
+        {label:'○ Skip (weeks)', data:wSkipCount, backgroundColor:'rgba(200,80,70,.72)',  borderRadius:3, stack:'w', maxBarThickness:28},
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:28}},
         plugins:{
-          legend:{display:false},
+          legend:{labels:{color:'#7db2d4',font:{size:10,family:'Nunito'},boxWidth:12}},
           tooltip:{callbacks:{
-            title:function(ctx){return 'Day '+ctx[0].label;},
-            label:function(ctx){
-              var v=ctx.raw;
-              if(v===null)return 'Not recorded';
-              return v===1?'Done ✅':'Not done ❌';
+            title:ctx=>ctx[0].label,
+            label:ctx=>{
+              const v=ctx.raw;
+              return ctx.dataset.label+': '+v+' week'+(v!==1?'s':'');
+            },
+            footer:ctx=>{
+              const p=wPct[ctx[0].dataIndex];
+              return p!==null?'Progress: '+p+'% of weeks done':'';
             }
           }}
         },
         scales:{
-          x:{ticks:{color:'#7db2d4',font:{size:9},maxRotation:0},grid:{color:'rgba(255,255,255,0.04)'}},
-          y:{
-            min:-0.15,max:1.15,
-            ticks:{color:'#7db2d4',font:{size:9},stepSize:1,callback:function(v){return v===1?'Yes':v===0?'No':'';}},
-            grid:{color:'rgba(255,255,255,0.04)'}
+          x:{stacked:true, ticks:{color:'#7db2d4',font:{size:9},maxRotation:20}, grid:{color:'rgba(255,255,255,.04)'}},
+          y:{stacked:true,
+            title:{display:true,text:'Weeks ('+weeks.length+' total)',color:'#7db2d4',font:{size:10}},
+            max:weeks.length,
+            ticks:{color:'#7db2d4',stepSize:1,font:{size:9}},
+            grid:{color:'rgba(255,255,255,.05)'}
           }
-        }
-      }
+        },
+        animation:{onComplete:function(){
+          const chart=this; const ctx3=chart.ctx;
+          const meta=chart.getDatasetMeta(1); // top dataset = skip
+          allHabits.forEach((_,i)=>{
+            const bar=meta.data[i]; if(!bar) return;
+            const p=wPct[i]; if(p===null) return;
+            const col=p>=50?'#5dd6d6':'#e07a6a';
+            ctx3.save(); ctx3.fillStyle=col;
+            ctx3.font='bold 11px Nunito,sans-serif';
+            ctx3.textAlign='center'; ctx3.textBaseline='bottom';
+            ctx3.fillText(p+'%', bar.x, bar.y-4);
+            ctx3.restore();
+          });
+        }}
+      }});
+
+  } else {
+    const year=parseInt(document.getElementById('habit-monthly-year')?.value??now.getFullYear());
+    const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const allHabits=[...(state.habitsMonthly.build||[]).map(h=>({...h,htype:'build'})),...(state.habitsMonthly.change||[]).map(h=>({...h,htype:'change'}))];
+    const labels=MN;
+    const doneData=MN.map((_,mi)=>{
+      const k='monthly_'+year+'-'+String(mi+1).padStart(2,'0');
+      return allHabits.filter(h=>state.habitChecks['monthly_'+h.htype+'_'+h.id+'_'+k]===1).length;
     });
-  });
+    const skipData=MN.map((_,mi)=>{
+      const k='monthly_'+year+'-'+String(mi+1).padStart(2,'0');
+      return allHabits.filter(h=>state.habitChecks['monthly_'+h.htype+'_'+h.id+'_'+k]===2).length;
+    });
+    const total=allHabits.length||1;
+
+    // Monthly: one bar per habit. Y = month count (0–12). Done stacked bottom, Skip on top.
+    const MN2=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const habitLabels3=allHabits.map(h=>(h.htype==='build'?'✅ ':'🔄 ')+h.name);
+    const now2=new Date();now2.setHours(0,0,0,0);
+    const pastMonths=MN2.filter((_,mi)=>new Date(year,mi,1)<=now2).length;
+
+    // Count done and skip months per habit
+    const mDoneCount=allHabits.map(h=>MN2.filter((_,mi)=>{
+      const k='monthly_'+year+'-'+String(mi+1).padStart(2,'0');
+      return state.habitChecks['monthly_'+h.htype+'_'+h.id+'_'+k]===1;
+    }).length);
+    const mSkipCount=allHabits.map(h=>MN2.filter((_,mi)=>{
+      const k='monthly_'+year+'-'+String(mi+1).padStart(2,'0');
+      return state.habitChecks['monthly_'+h.htype+'_'+h.id+'_'+k]===2;
+    }).length);
+    const mPct=allHabits.map((_,i)=>{
+      return pastMonths>0?Math.round(mDoneCount[i]/pastMonths*100):null;
+    });
+
+    const canvas=document.getElementById('habit-chart-monthly');
+    if(!canvas)return;
+    if(habitChartInstMonthly)habitChartInstMonthly.destroy();
+    habitChartInstMonthly=new Chart(canvas,{type:'bar',
+      data:{labels:habitLabels3, datasets:[
+        {label:'◆ Done (months)', data:mDoneCount, backgroundColor:'rgba(93,214,214,.82)', borderRadius:3, stack:'m', maxBarThickness:28},
+        {label:'○ Skip (months)', data:mSkipCount, backgroundColor:'rgba(200,80,70,.72)',  borderRadius:3, stack:'m', maxBarThickness:28},
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:28}},
+        plugins:{
+          legend:{labels:{color:'#7db2d4',font:{size:10,family:'Nunito'},boxWidth:12}},
+          tooltip:{callbacks:{
+            title:ctx=>ctx[0].label,
+            label:ctx=>{
+              const v=ctx.raw;
+              return ctx.dataset.label+': '+v+' month'+(v!==1?'s':'');
+            },
+            footer:ctx=>{
+              const p=mPct[ctx[0].dataIndex];
+              return p!==null?'Progress: '+p+'% of months done':'';
+            }
+          }}
+        },
+        scales:{
+          x:{stacked:true, ticks:{color:'#7db2d4',font:{size:9},maxRotation:20}, grid:{color:'rgba(255,255,255,.04)'}},
+          y:{stacked:true,
+            title:{display:true,text:'Months (12 total)',color:'#7db2d4',font:{size:10}},
+            max:12,
+            ticks:{color:'#7db2d4',stepSize:1,font:{size:9}},
+            grid:{color:'rgba(255,255,255,.05)'}
+          }
+        },
+        animation:{onComplete:function(){
+          const chart=this; const ctx3=chart.ctx;
+          const meta=chart.getDatasetMeta(1);
+          allHabits.forEach((_,i)=>{
+            const bar=meta.data[i]; if(!bar) return;
+            const p=mPct[i]; if(p===null) return;
+            const col=p>=50?'#5dd6d6':'#e07a6a';
+            ctx3.save(); ctx3.fillStyle=col;
+            ctx3.font='bold 11px Nunito,sans-serif';
+            ctx3.textAlign='center'; ctx3.textBaseline='bottom';
+            ctx3.fillText(p+'%', bar.x, bar.y-4);
+            ctx3.restore();
+          });
+        }}
+      }});
+  }
 }
 
-// ══════════════════════════════════════════════════
-//  EXPENSE — CUSTOM MONTH START
-// ══════════════════════════════════════════════════
-// Returns ordered array of {dateObj, label} for the custom period
-function getExpensePeriod(){
-  const month=parseInt(document.getElementById('expense-month-sel').value);
-  const year=parseInt(document.getElementById('expense-year-inp').value)||new Date().getFullYear();
-  const startDay=parseInt(document.getElementById('month-start-day').value)||1;
-  const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+// Legacy stubs no longer needed but kept for safety
+function renderHabitDay(){}
+function renderHabitList(){}
+function renderHabitChart(){ renderHabitGraph('daily',null,null,null); }
+function renderHabitChartFor(scope){ renderHabitGraph(scope,null,null,null); }
+function habitNavDay(){}
 
-  const days=[];
-  // Start from startDay of selected month to startDay-1 of next month
-  let cur=new Date(year,month,startDay);
-  const end=new Date(year,month+1,startDay); // exclusive
-  while(cur<end){
-    const y=cur.getFullYear(),m=cur.getMonth(),d=cur.getDate();
-    const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const label=`${d} ${MN[m]}`;
-    days.push({key,label,d,m,y,dateObj:new Date(cur)});
-    cur.setDate(cur.getDate()+1);
-  }
-  return days;
+
+// ══════════════════════════════════════════════════
+//  EXPENSE TRACKER
+// ══════════════════════════════════════════════════
+let expChartInst=null;
+function renderExpense(){
+  const now=new Date();
+  const mSel=document.getElementById('expense-month-sel'),ySel=document.getElementById('expense-year-inp');
+  if(!ySel.value){mSel.value=now.getMonth();ySel.value=now.getFullYear();}
+  const mk=getExpenseMonthKey();
+  const limit=parseFloat(document.getElementById('expense-limit').value)||1000;
+  const savingsDeposit=parseFloat(document.getElementById('savings-deposit').value)||0;
+  const period=getExpensePeriod();
+  state.savings[mk]=savingsDeposit;save();
+  const nowCeil=new Date();nowCeil.setHours(23,59,59,999);
+  const totalIncome=(state.income[mk]||[]).reduce((s,e)=>s+Number(e.amount),0);
+  const totalExp=period.reduce((s,p)=>{
+    if(p.dateObj>nowCeil)return s;
+    const entries=state.expBreakdown[p.key]||[];
+    return s+entries.reduce((a,e)=>a+Number(e.amount),0);
+  },0);
+  const remaining=totalIncome-savingsDeposit-totalExp;
+  document.getElementById('sum-income').textContent=totalIncome.toLocaleString();
+  document.getElementById('sum-savings').textContent=savingsDeposit.toLocaleString();
+  document.getElementById('sum-expenses').textContent=totalExp.toLocaleString();
+  const remEl=document.getElementById('sum-remaining');
+  remEl.textContent=(remaining<0?'-':'')+Math.abs(remaining).toLocaleString();
+  remEl.style.color=remaining<0?'var(--red)':'#5dd6d6';
+  const lastDay=period[period.length-1];
+  const periodEnded=lastDay&&nowCeil>lastDay.dateObj;
+  const rollPanel=document.getElementById('rollover-panel');
+  if(periodEnded&&remaining>0&&!state.rollover[mk]){
+    rollPanel.classList.add('show');
+    document.getElementById('rollover-amount-txt').textContent=remaining.toLocaleString();
+    document.getElementById('rollover-modal-text').textContent=
+      'This period ended with '+remaining.toLocaleString()+' remaining. Add to savings or next month income?';
+  }else{rollPanel.classList.remove('show');}
+  const grid=document.getElementById('expense-grid');grid.innerHTML='';
+  period.forEach((p,idx)=>{
+    const entries=state.expBreakdown[p.key]||[];
+    const total=entries.reduce((s,e)=>s+Number(e.amount),0);
+    const hasV=entries.length>0;
+    const isFuture=p.dateObj>nowCeil;
+    const cls=hasV?(total>limit?'over':'under'):isFuture?'':'under';
+    const icon=hasV?(total>limit?'🔴':'🟢'):isFuture?'':'🟢';
+    const totalStr=hasV?total.toLocaleString():isFuture?'tap':'0';
+    const countStr=hasV?`${entries.length} item${entries.length===1?'':'s'}`:isFuture?'to add':'no entries';
+    const disabledAttr=isFuture?'disabled':'';
+    const card=document.createElement('div');
+    card.className=`expense-day-card ${cls}`;
+    card.id=`exp-card-${idx}`;
+    card.innerHTML=`<div class="day-num">${p.label}</div>
+      <button class="exp-day-open-btn" ${disabledAttr}
+        onclick="openExpDayModal('${p.key}','${p.label}',${limit},${idx})"
+        style="${isFuture?'opacity:.35;cursor:not-allowed':''}">
+        <span class="exp-day-total-txt">${totalStr}</span>
+        <span class="exp-day-count-txt">${countStr}</span>
+      </button>
+      <div class="status-icon" id="exp-icon-${idx}">${icon}</div>`;
+    grid.appendChild(card);
+  });
+  drawExpChart(period,limit,nowCeil);
 }
 
 function getExpenseMonthKey(){
@@ -1556,35 +1943,39 @@ function getExpenseMonthKey(){
   const year=parseInt(document.getElementById('expense-year-inp').value)||new Date().getFullYear();
   return`${year}_${month}`;
 }
-
-// ══════════════════════════════════════════════════
-//  INCOME MODAL
-// ══════════════════════════════════════════════════
-function openIncomeModal(){
-  renderIncomeBreakdown();
-  document.getElementById('income-modal').classList.add('open');
+function getExpensePeriod(){
+  const month=parseInt(document.getElementById('expense-month-sel').value);
+  const year=parseInt(document.getElementById('expense-year-inp').value)||new Date().getFullYear();
+  const startDay=parseInt(document.getElementById('month-start-day').value)||1;
+  const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const days=[];
+  let cur=new Date(year,month,startDay);
+  const end=new Date(year,month+1,startDay);
+  while(cur<end){
+    const y=cur.getFullYear(),m=cur.getMonth(),d=cur.getDate();
+    const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    days.push({key,label:`${d} ${MN[m]}`,d,m,y,dateObj:new Date(cur)});
+    cur.setDate(cur.getDate()+1);
+  }
+  return days;
 }
+function openIncomeModal(){renderIncomeBreakdown();document.getElementById('income-modal').classList.add('open');}
 function closeIncomeModal(){document.getElementById('income-modal').classList.remove('open');renderExpense();}
 function renderIncomeBreakdown(){
   const mk=getExpenseMonthKey();
   const entries=state.income[mk]||[];
-  const list=document.getElementById('income-breakdown-list');
-  list.innerHTML='';
-  if(!entries.length){list.innerHTML='<p style="color:var(--text-muted);font-size:.85rem;margin-bottom:10px">No income entries yet.</p>';return;}
-  entries.forEach((e,i)=>{
-    const row=document.createElement('div');row.className='breakdown-item';
-    row.innerHTML=`<span class="b-source">${e.source}</span>
-      <span class="b-amount">+${Number(e.amount).toLocaleString()}</span>
-      <button class="b-del" onclick="removeIncomeEntry(${i})">🗑</button>`;
-    list.appendChild(row);
-  });
-  const total=entries.reduce((s,e)=>s+Number(e.amount),0);
+  const list=document.getElementById('income-breakdown-list');list.innerHTML='';
+  if(!entries.length){list.innerHTML='<p style="color:var(--text-muted);font-size:.85rem;margin-bottom:10px">No income entries yet.</p>';
+  }else{entries.forEach((e,i)=>{const row=document.createElement('div');row.className='breakdown-item';
+    row.innerHTML=`<span class="b-source">${e.source}</span><span class="b-amount">+${Number(e.amount).toLocaleString()}</span><button class="b-del" onclick="removeIncomeEntry(${i})">🗑</button>`;
+    list.appendChild(row);});}
+  const total=(state.income[mk]||[]).reduce((s,e)=>s+Number(e.amount),0);
   document.getElementById('income-modal-total').textContent=total.toLocaleString();
 }
 function addIncomeEntry(){
   const src=document.getElementById('income-source-inp').value.trim();
   const amt=parseFloat(document.getElementById('income-amount-inp').value)||0;
-  if(!src||!amt)return;
+  if(!src)return;
   const mk=getExpenseMonthKey();
   if(!state.income[mk])state.income[mk]=[];
   state.income[mk].push({source:src,amount:amt});
@@ -1593,34 +1984,25 @@ function addIncomeEntry(){
   save();renderIncomeBreakdown();
 }
 function removeIncomeEntry(i){
-  const mk=getExpenseMonthKey();
-  state.income[mk].splice(i,1);save();renderIncomeBreakdown();
+  const mk=getExpenseMonthKey();state.income[mk].splice(i,1);save();renderIncomeBreakdown();
 }
-
-// ══════════════════════════════════════════════════
-//  ROLLOVER MODAL
-// ══════════════════════════════════════════════════
 function openRolloverModal(){document.getElementById('rollover-modal').classList.add('open');}
 function closeRolloverModal(){document.getElementById('rollover-modal').classList.remove('open');}
 function doRollover(action){
   const mk=getExpenseMonthKey();
   const remaining=calcRemaining();
   state.rollover[mk]={action,amount:remaining};
-  // Apply
-  if(action==='savings'){
-    state.savings[mk]=(state.savings[mk]||0)+remaining;
-  }else if(action==='income'){
-    // Add to next month income
+  if(action==='savings'){state.savings[mk]=(state.savings[mk]||0)+remaining;}
+  else if(action==='income'){
     const month=parseInt(document.getElementById('expense-month-sel').value);
     const year=parseInt(document.getElementById('expense-year-inp').value)||new Date().getFullYear();
     const nextDate=new Date(year,month+1,1);
     const nmk=`${nextDate.getFullYear()}_${nextDate.getMonth()}`;
     if(!state.income[nmk])state.income[nmk]=[];
-    state.income[nmk].push({source:`Rollover from ${new Date(year,month).toLocaleString('default',{month:'long'})}`,amount:remaining});
+    state.income[nmk].push({source:'Rollover from '+new Date(year,month).toLocaleString('default',{month:'long'}),amount:remaining});
   }
   save();closeRolloverModal();renderExpense();
 }
-
 function calcRemaining(){
   const mk=getExpenseMonthKey();
   const totalIncome=(state.income[mk]||[]).reduce((s,e)=>s+Number(e.amount),0);
@@ -1635,88 +2017,13 @@ function calcRemaining(){
   return totalIncome-savingsDeposit-totalExp;
 }
 
-// ══════════════════════════════════════════════════
-//  EXPENSE RENDER
-// ══════════════════════════════════════════════════
-let expChartInst=null;
-function renderExpense(){
-  const now=new Date();
-  const mSel=document.getElementById('expense-month-sel'),ySel=document.getElementById('expense-year-inp');
-  if(!ySel.value){mSel.value=now.getMonth();ySel.value=now.getFullYear();}
-
-  const mk=getExpenseMonthKey();
-  const limit=parseFloat(document.getElementById('expense-limit').value)||1000;
-  const savingsDeposit=parseFloat(document.getElementById('savings-deposit').value)||0;
-  const period=getExpensePeriod();
-  const startDay=parseInt(document.getElementById('month-start-day').value)||1;
-
-  // Sync savings deposit to state
-  state.savings[mk]=savingsDeposit;save();
-
-  // Calc totals
-  const totalIncome=(state.income[mk]||[]).reduce((s,e)=>s+Number(e.amount),0);
-  const nowCeil=new Date();nowCeil.setHours(23,59,59,999);
-  const totalExp=period.reduce((s,p)=>{
-    if(p.dateObj>nowCeil)return s;
-    const entries=state.expBreakdown[p.key]||[];
-    return s+entries.reduce((a,e)=>a+Number(e.amount),0);
-  },0);
-  const remaining=totalIncome-savingsDeposit-totalExp;
-
-  document.getElementById('sum-income').textContent=totalIncome.toLocaleString();
-  document.getElementById('sum-savings').textContent=savingsDeposit.toLocaleString();
-  document.getElementById('sum-expenses').textContent=totalExp.toLocaleString();
-  const remEl=document.getElementById('sum-remaining');
-  remEl.textContent=(remaining<0?'-':'')+Math.abs(remaining).toLocaleString();
-  remEl.style.color=remaining<0?'var(--red)':'var(--teal-light)';
-
-  // Check if period ended
-  const lastDay=period[period.length-1];
-  const periodEnded=lastDay&&nowCeil>lastDay.dateObj;
-  const rollPanel=document.getElementById('rollover-panel');
-  if(periodEnded&&remaining>0&&!state.rollover[mk]){
-    rollPanel.classList.add('show');
-    document.getElementById('rollover-amount-txt').textContent=remaining.toLocaleString();
-    document.getElementById('rollover-modal-text').textContent=
-      `This period ended with ${remaining.toLocaleString()} remaining. Add to savings or next month income?`;
-  }else{rollPanel.classList.remove('show');}
-
-  // Build grid
-  const grid=document.getElementById('expense-grid');grid.innerHTML='';
-  period.forEach((p,idx)=>{
-    const entries=state.expBreakdown[p.key]||[];
-    const total=entries.reduce((s,e)=>s+Number(e.amount),0);
-    const hasV=entries.length>0;
-    const cls=hasV?(total>limit?'over':'under'):'';
-    const icon=hasV?(total>limit?'🔴':'🟢'):'';
-    const isFuture=p.dateObj>nowCeil;
-    const card=document.createElement('div');card.className=`expense-day-card ${cls}`;card.id=`exp-card-${idx}`;
-    const totalStr=hasV?total.toLocaleString():'tap';
-    const countStr=hasV?`${entries.length} item${entries.length===1?'':'s'}`:'to add';
-    const disabledAttr=isFuture?'disabled':'';
-    card.innerHTML=`<div class="day-num">${p.label}</div>
-      <button class="exp-day-open-btn" ${disabledAttr}
-        onclick="openExpDayModal('${p.key}','${p.label}',${limit},${idx})"
-        style="${isFuture?'opacity:.35;cursor:not-allowed':''}">
-        <span class="exp-day-total-txt">${totalStr}</span>
-        <span class="exp-day-count-txt">${countStr}</span>
-      </button>
-      <div class="status-icon" id="exp-icon-${idx}">${icon}</div>`;
-    grid.appendChild(card);
-  });
-
-  drawExpChart(period,limit,nowCeil);
-}
-
 // ── Expense Day Breakdown Modal ──
 let expDayCurrentKey=null, expDayCurrentIdx=null, expDayCurrentLimit=0;
-
 function openExpDayModal(key,label,limit,idx){
-  expDayCurrentKey=key; expDayCurrentIdx=idx; expDayCurrentLimit=limit;
+  expDayCurrentKey=key;expDayCurrentIdx=idx;expDayCurrentLimit=limit;
   document.getElementById('exp-day-modal-title').textContent=label;
   document.getElementById('exp-day-cat-inp').value='';
   document.getElementById('exp-day-amt-inp').value='';
-  // Clear active chip
   document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));
   renderExpDayList();
   document.getElementById('exp-day-modal').classList.add('open');
@@ -1724,47 +2031,36 @@ function openExpDayModal(key,label,limit,idx){
 }
 function closeExpDayModal(){
   document.getElementById('exp-day-modal').classList.remove('open');
-  refreshExpSummaries();
-  renderExpense(); // re-render grid to show updated totals
+  refreshExpSummaries();renderExpense();
 }
 function setExpCategory(cat){
   document.getElementById('exp-day-cat-inp').value=cat;
-  document.querySelectorAll('.exp-chip').forEach(c=>{
-    c.classList.toggle('active', c.textContent.includes(cat));
-  });
+  document.querySelectorAll('.exp-chip').forEach(c=>c.classList.toggle('active',c.textContent.includes(cat)));
   document.getElementById('exp-day-amt-inp').focus();
 }
 function addExpDayEntry(){
   const cat=document.getElementById('exp-day-cat-inp').value.trim()||'Other';
-  const amt=parseFloat(document.getElementById('exp-day-amt-inp').value);
-  if(!amt||isNaN(amt))return;
+  const amtInput=document.getElementById('exp-day-amt-inp');
+  const amt=parseFloat(amtInput.value);
+  if(isNaN(amt)||amtInput.value.trim()==='')return;
   if(!state.expBreakdown[expDayCurrentKey])state.expBreakdown[expDayCurrentKey]=[];
   state.expBreakdown[expDayCurrentKey].push({category:cat,amount:amt});
   document.getElementById('exp-day-cat-inp').value='';
-  document.getElementById('exp-day-amt-inp').value='';
+  amtInput.value='';
   document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));
-  save();
-  renderExpDayList();
+  save();renderExpDayList();
   document.getElementById('exp-day-cat-inp').focus();
 }
-function removeExpDayEntry(i){
-  state.expBreakdown[expDayCurrentKey].splice(i,1);
-  save();renderExpDayList();
-}
+function removeExpDayEntry(i){state.expBreakdown[expDayCurrentKey].splice(i,1);save();renderExpDayList();}
 function renderExpDayList(){
   const entries=state.expBreakdown[expDayCurrentKey]||[];
-  const list=document.getElementById('exp-day-list');
-  list.innerHTML='';
+  const list=document.getElementById('exp-day-list');list.innerHTML='';
   if(!entries.length){
-    list.innerHTML='<p style="color:var(--text-muted);font-size:.85rem;margin-bottom:10px;text-align:center">No entries yet — add your first expense above.</p>';
-  } else {
-    entries.forEach((e,i)=>{
-      const row=document.createElement('div');row.className='breakdown-item';
-      row.innerHTML=`<span class="b-source">${e.category}</span>
-        <span class="b-amount" style="color:var(--gold)">${Number(e.amount).toLocaleString()}</span>
-        <button class="b-del" onclick="removeExpDayEntry(${i})">🗑</button>`;
-      list.appendChild(row);
-    });
+    list.innerHTML='<p style="color:var(--text-muted);font-size:.85rem;margin-bottom:10px;text-align:center">No entries yet.</p>';
+  }else{
+    entries.forEach((e,i)=>{const row=document.createElement('div');row.className='breakdown-item';
+      row.innerHTML=`<span class="b-source">${e.category}</span><span class="b-amount" style="color:var(--gold)">${Number(e.amount).toLocaleString()}</span><button class="b-del" onclick="removeExpDayEntry(${i})">🗑</button>`;
+      list.appendChild(row);});
   }
   const total=entries.reduce((s,e)=>s+Number(e.amount),0);
   document.getElementById('exp-day-total').textContent=total.toLocaleString();
@@ -1783,20 +2079,19 @@ function refreshExpSummaries(){
   },0);
   const remaining=totalIncome-savingsDeposit-totalExp;
   document.getElementById('sum-expenses').textContent=totalExp.toLocaleString();
-  const remEl=document.getElementById('sum-remaining');
-  remEl.textContent=(remaining<0?'-':'')+Math.abs(remaining).toLocaleString();
-  remEl.style.color=remaining<0?'var(--red)':'var(--teal-light)';
+  const _remEl=document.getElementById('sum-remaining');
+  _remEl.textContent=(remaining<0?'-':'')+Math.abs(remaining).toLocaleString();
+  _remEl.style.color=remaining<0?'var(--red)':'#5dd6d6';
   const nowCeil2=new Date();nowCeil2.setHours(23,59,59,999);
   drawExpChart(period,limit,nowCeil2);
 }
-
 function drawExpChart(period,limit,nowCeil){
   const canvas=document.getElementById('expense-chart');if(!canvas)return;
   const labels=period.map(p=>p.label);
   const data=period.map(p=>{
     if(p.dateObj>nowCeil)return null;
     const entries=state.expBreakdown[p.key]||[];
-    return entries.length?entries.reduce((s,e)=>s+Number(e.amount),0):null;
+    return entries.reduce((s,e)=>s+Number(e.amount),0);
   });
   const ptc=data.map(v=>v===null?'rgba(0,201,200,.2)':v>limit?'rgba(231,76,60,.9)':'rgba(46,204,113,.9)');
   if(expChartInst)expChartInst.destroy();
@@ -1817,15 +2112,59 @@ function drawExpChart(period,limit,nowCeil){
       scales:{
         x:{ticks:{color:'#7db2d4',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},
         y:{ticks:{color:'#7db2d4',font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}}
-      }}
-  });
+      }}});
 }
 
 // ══════════════════════════════════════════════════
 //  PWA
 // ══════════════════════════════════════════════════
-if('serviceWorker'in navigator)
-  window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+let swRegistration=null;
+let updateWaiting=false;
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js').then(reg=>{
+      swRegistration=reg;
+
+      // New SW installed and waiting — show update banner
+      if(reg.waiting){
+        showUpdateBanner();
+      }
+
+      // SW updates while page is open
+      reg.addEventListener('updatefound',()=>{
+        const newWorker=reg.installing;
+        newWorker.addEventListener('statechange',()=>{
+          if(newWorker.state==='installed'&&navigator.serviceWorker.controller){
+            // New version ready, old one still running
+            showUpdateBanner();
+          }
+        });
+      });
+    }).catch(()=>{});
+
+    // When SW activates (after skip waiting), reload to get fresh version
+    let refreshing=false;
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{
+      if(!refreshing){refreshing=true;window.location.reload();}
+    });
+  });
+}
+
+function showUpdateBanner(){
+  updateWaiting=true;
+  const b=document.getElementById('update-banner');
+  if(b)b.style.display='flex';
+}
+
+function applyUpdate(){
+  const b=document.getElementById('update-banner');
+  if(b)b.style.display='none';
+  if(swRegistration&&swRegistration.waiting){
+    swRegistration.waiting.postMessage({type:'SKIP_WAITING'});
+  }
+}
+
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault();deferredPrompt=e;
@@ -1849,7 +2188,6 @@ window.onload=()=>{
   if(state.monthStartDay)document.getElementById('month-start-day').value=state.monthStartDay;
   if(state.expenseLimit)document.getElementById('expense-limit').value=state.expenseLimit;
   if(state.savingsDeposit!==undefined)document.getElementById('savings-deposit').value=state.savingsDeposit;
-  // Home is always shown on load — calendar modal only pops when entering Salah
 };
 </script>
 </body>
