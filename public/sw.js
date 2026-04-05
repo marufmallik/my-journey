@@ -1,4 +1,4 @@
-const CACHE = 'journey-v2';
+const CACHE = 'journey-v3';
 const ASSETS = [
   '/',
   '/index.html',
